@@ -1,11 +1,43 @@
-# generated files
+# === Java/Maven/Spring Boot ===
+*.class
+*.jar
+*.war
+*.log
+*.tmp
+*.swp
+*~
+
 target/
 generated/
+build/
+.gradle/
+out/
 
-# dependencies
+# === IDEs ===
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# === Sistema Operativo ===
+.DS_Store
+Thumbs.db
+
+# === Configuración y entorno ===
+.env
+/config/
+*.local.properties
 Dependencies.toml
-
-# config files
 Config.toml
-# the config files used for testing, Uncomment the following line if you want to commit the test config files
-#!**/tests/Config.toml
+
+# === Testing y cobertura ===
+/test-output/
+/surefire-reports/
+/jacoco.exec
+
+# === DevTools de Spring Boot ===
+.spring-boot-devtools.properties
