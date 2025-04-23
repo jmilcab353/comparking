@@ -1,0 +1,89 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Evaluar pruebas de <strong>{{ especialidad }}</strong></h2>
+
+  <div class="mb-3">
+    <label for="pruebas" class="form-label">Selecciona una prueba:</label>
+    <select [(ngModel)]="idPruebaSeleccionada" id="pruebas" class="form-select">
+      <option *ngFor="let prueba of pruebas" [value]="prueba.id">{{ prueba.enunciado }}</option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary mb-3" (click)="cargarParticipantes()">
+    <i class="bi bi-person-check"></i> Cargar participantes
+  </button>
+
+  <table *ngIf="participantes.length" class="table table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Evaluar</th>
+        <th>Evaluado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let participante of participantes">
+        <td>{{ participante.nombre }}</td>
+        <td>{{ participante.apellidos }}</td>
+        <td>
+          <button class="btn btn-warning" (click)="abrirModal(participante)" [disabled]="participante.evaluado">
+            <i class="bi bi-pencil-square"></i> Evaluar
+          </button>
+        </td>
+        <td>
+          <span class="badge" [ngClass]="participante.evaluado ? 'bg-success' : 'bg-danger'">
+            {{ participante.evaluado ? 'Sí' : 'No' }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal de Evaluación -->
+  <div *ngIf="showModal" class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Evaluar a {{ participanteSeleccionado?.nombre }} {{
+            participanteSeleccionado?.apellidos }}</h5>
+          <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Advertencia si no hay ítems evaluables -->
+          <div *ngIf="items.length === 0" class="alert alert-warning" role="alert">
+            Esta prueba no tiene ítems evaluables.
+          </div>
+
+          <table *ngIf="items.length > 0" class="table">
+            <thead>
+              <tr>
+                <th>Ítem</th>
+                <th>Valoración</th>
+                <th>Comentario</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of items; let i = index">
+                <td>{{ item.descripcion }}</td>
+                <td>
+                  <input type="number" class="form-control" [(ngModel)]="evaluacion[i].valoracion" min="0" max="10">
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="evaluacion[i].comentario">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" (click)="enviarEvaluacion()">
+            <i class="bi bi-check-circle"></i> Evaluar
+          </button>
+          <button class="btn btn-secondary" (click)="cerrarModal()">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

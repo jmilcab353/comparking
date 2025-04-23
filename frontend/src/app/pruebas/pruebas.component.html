@@ -1,0 +1,185 @@
+<div class="container mt-4">
+    <!-- Formulario de Prueba (sin sección de ítems, pues se gestionan en el modal) -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>{{ isEditing ? 'Editar' : 'Nueva' }} Prueba</h4>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="enunciado" class="form-label">Enunciado</label>
+                    <input type="text" class="form-control" id="enunciado" [(ngModel)]="currentPrueba.enunciado"
+                        name="enunciado" required>
+                </div>
+                <div class="mb-3">
+                    <label for="puntuacionMaxima" class="form-label">Puntuación Máxima</label>
+                    <input type="number" class="form-control" id="puntuacionMaxima"
+                        [(ngModel)]="currentPrueba.puntuacionMaxima" name="puntuacionMaxima" required>
+                </div>
+
+                <!-- Se eliminó la sección de ítems del formulario principal -->
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        {{ isEditing ? 'Actualizar' : 'Crear' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                        Cancelar
+                    </button>
+                </div>
+                <div *ngIf="isEditing" class="alert alert-warning mt-3">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Recuerde que al actualizar se eliminará el PDF actual y deberá añadir uno nuevo.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Tabla de Pruebas -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Pruebas de <strong>{{ especialidad }}</strong></h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Enunciado</th>
+                            <th>Puntuación Máxima</th>
+                            <th>Ítems</th>
+                            <th>PDF</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prueba of pruebas">
+                            <td>{{ prueba.enunciado }}</td>
+                            <td>{{ prueba.puntuacionMaxima }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success" (click)="openItemsModal(prueba)">
+                                    Items
+                                </button>
+                            </td>
+                            <td>
+                                <div *ngIf="prueba.ruta">
+                                    <button class="btn btn-sm btn-info" (click)="viewPdf(prueba.ruta)">
+                                        Ver PDF
+                                    </button>
+                                </div>
+                                <button *ngIf="!prueba.ruta" class="btn btn-sm btn-secondary"
+                                    (click)="openModal(prueba)">
+                                    Añadir PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-warning" (click)="editPrueba(prueba)">
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" (click)="deletePrueba(prueba.id!)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Añadir/Editar PDF (ya existente) -->
+<div *ngIf="showModal" class="modal" style="display: block;">
+    <div class="modal-content" id="modal-pdf">
+        <h4>Opciones PDF</h4>
+        <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Recuerde que el PDF debe tener un tamaño máximo de 10 MB.
+        </div>
+        <input *ngIf="!currentPrueba.ruta" type="file" (change)="onFileSelected($event)" accept="application/pdf"
+            class="form-control-file" #fileInput>
+        <div class="d-flex gap-2 mt-3">
+            <button *ngIf="selectedFile" class="btn btn-success" (click)="uploadPdf(currentPrueba.id)">
+                Subir PDF
+            </button>
+            <button class="btn btn-danger" (click)="closeModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Gestionar Ítems -->
+<!-- Modal para Gestionar Ítems -->
+<div *ngIf="showItemsModal" class="modal" style="display: block;">
+    <div class="modal-content" id="modal-items">
+        <h3>Ítems de la prueba: {{ currentPruebaForItems.enunciado }}</h3>
+
+        <!-- Formulario para agregar o editar ítems -->
+        <div class="item-form mb-3">
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input id="descripcion" type="text" [(ngModel)]="currentItem.descripcion" placeholder="Descripción" class="form-control mb-2" />
+            </div>
+
+            <!-- Fila para Peso y Grados de Consecución -->
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="peso" class="form-label">Peso</label>
+                    <input id="peso" type="number" [(ngModel)]="currentItem.peso" placeholder="Peso" class="form-control mb-2" />
+                </div>
+                <div class="col-6">
+                    <label for="gradosConsecucion" class="form-label">Grados de Consecución</label>
+                    <input id="gradosConsecucion" type="number" [(ngModel)]="currentItem.gradosConsecucion" placeholder="Grados de Consecución" class="form-control mb-2" />
+                </div>
+            </div>
+
+            <button (click)="addItem()" class="btn btn-primary mx-2">
+                {{ isEditingItem ? 'Actualizar' : 'Añadir' }}
+            </button>
+            <button (click)="resetItemForm()" class="btn btn-secondary mx-2">Cancelar</button>
+        </div>
+
+        <!-- Tabla de Ítems -->
+        <div class="table-responsive">
+            <table class="table table-warning table-bordered">
+                <thead>
+                    <tr>
+                        <th>Descripción</th>
+                        <th>Peso</th>
+                        <th>Grados de Consecución</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of currentItems">
+                        <td>{{ item.descripcion }}</td>
+                        <td>{{ item.peso }}</td>
+                        <td>{{ item.gradosConsecucion }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button (click)="editItem(item)" class="btn btn-warning btn-sm">Editar</button>
+                                <button (click)="deleteItem(item.id)" class="btn btn-danger btn-sm">Borrar</button>
+                            </div>
+                        </td>                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- <div *ngIf="currentItems.length === 0" class="alert alert-warning">
+            Aún no hay ítems
+        </div> -->
+
+        <div *ngIf="itemErrorMessage" class="alert alert-danger">
+            {{ itemErrorMessage }}
+        </div>
+
+        <button (click)="closeItemsModal()" class="btn btn-secondary">Cerrar</button>
+    </div>
+</div>

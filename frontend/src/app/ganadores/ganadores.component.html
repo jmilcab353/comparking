@@ -1,0 +1,54 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Ganadores por Especialidad</h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Especialidad</th>
+                <th>Ganador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let especialidad of especialidades">
+                <td>{{ especialidad.nombre }}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" (click)="mostrarGanador(especialidad.id)">
+                        <i class="bi bi-trophy"></i> Ver ganador
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal personalizado -->
+<div *ngIf="showModal" class="modal" style="display: block;">
+    <div class="modal-content" id="modal-ganadores">
+        <h4>Detalles del Ganador</h4>
+        <div class="alert alert-info" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            Ganador/es de la especialidad seleccionada.
+        </div>
+
+        <div *ngIf="ganadoresSeleccionados.length > 0; else mensajeErrorTemplate">
+            <hr>
+            <div *ngFor="let ganador of ganadoresSeleccionados">
+                <p><strong>Nombre y Apellidos:</strong> {{ ganador.nombre }} {{ ganador.apellidos }}</p>
+                <p><strong>Especialidad:</strong> {{ especialidadSeleccionada?.nombre }}</p>
+                <p><strong>Número de participante:</strong> {{ ganador.idParticipante }}</p>
+                <p><strong>Centro del participante:</strong> {{ ganador.centro }}</p>
+                <p><strong>Nota Final:</strong> {{ ganador.notaFinal }}</p>
+                <hr>
+            </div>
+        </div>
+
+        <!-- Template para el mensaje de error -->
+        <ng-template #mensajeErrorTemplate>
+            <p class="text-danger"><strong>{{ mensajeError }}</strong></p>
+        </ng-template>
+
+        <div class="d-flex gap-2 mt-3">
+            <button class="btn btn-danger" (click)="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+</div>

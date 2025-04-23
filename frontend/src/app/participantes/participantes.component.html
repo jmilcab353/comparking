@@ -1,0 +1,97 @@
+<div class="container mt-4">
+    <!-- Formulario -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>{{ isEditing ? 'Editar' : 'Nuevo' }} Participante</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="participanteForm" (ngSubmit)="onSubmit()">
+                <!-- Campo Nombre -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                    <div class="text-danger" *ngIf="participanteForm.get('nombre')?.invalid && participanteForm.get('nombre')?.touched">
+                        <small *ngIf="participanteForm.get('nombre')?.errors?.['required']">El nombre no puede estar vacío.</small>
+                        <small *ngIf="participanteForm.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 2 caracteres.</small>
+                        <small *ngIf="participanteForm.get('nombre')?.errors?.['maxlength']">El nombre no puede tener más de 30 caracteres.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Apellidos -->
+                <div class="mb-3">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                    <div class="text-danger" *ngIf="participanteForm.get('apellidos')?.invalid && participanteForm.get('apellidos')?.touched">
+                        <small *ngIf="participanteForm.get('apellidos')?.errors?.['required']">Los apellidos no pueden estar vacíos.</small>
+                        <small *ngIf="participanteForm.get('apellidos')?.errors?.['minlength']">Los apellidos deben tener al menos 2 caracteres.</small>
+                        <small *ngIf="participanteForm.get('apellidos')?.errors?.['maxlength']">Los apellidos no pueden tener más de 60 caracteres.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Centro -->
+                <div class="mb-3">
+                    <label for="centro" class="form-label">Centro</label>
+                    <input type="text" class="form-control" id="centro" formControlName="centro">
+                    <div class="text-danger" *ngIf="participanteForm.get('centro')?.invalid && participanteForm.get('centro')?.touched">
+                        <small *ngIf="participanteForm.get('centro')?.errors?.['required']">El nombre del centro no puede estar vacío.</small>
+                        <small *ngIf="participanteForm.get('centro')?.errors?.['minlength']">El nombre del centro debe tener al menos 2 caracteres.</small>
+                        <small *ngIf="participanteForm.get('centro')?.errors?.['maxlength']">El nombre del centro no puede tener más de 60 caracteres.</small>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary" [disabled]="participanteForm.invalid">
+                        {{ isEditing ? 'Actualizar' : 'Crear' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Tabla de Participantes -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Participantes de <strong>{{ especialidad }}</strong></h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Centro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let participante of participantes">
+                            <td>{{ participante.nombre }}</td>
+                            <td>{{ participante.apellidos }}</td>
+                            <td>{{ participante.centro }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-warning" (click)="editParticipante(participante)">
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteParticipante(participante.id!)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

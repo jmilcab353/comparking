@@ -1,0 +1,11 @@
+.landing-wrapper {
+    min-height: 100vh;
+    background-image: url('/images/garage-bg.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.welcome-message {
+    max-width: 900px;
+    margin: 0 auto;
+}
