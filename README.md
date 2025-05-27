@@ -1,6 +1,7 @@
-### Autor: Jesús Milla Cabrera  
-### GitHub: [jmilcab353](https://github.com/jmilcab353)  
-### Docker Hub: [jmilcab353](https://hub.docker.com/u/jmilcab353)  
+### Autor: Jesús Milla Cabrera
+### Portfolio: [jmilladev](https://jmilladev.web.app)
+### GitHub: [jmilcab353](https://github.com/jmilcab353)
+### Docker Hub: [jmilcab353](https://hub.docker.com/u/jmilcab353)
 
 # Comparking
 Aplicación web prototipo con Spring Boot, Angular, MySQL y Docker para compartir aparcamientos privados.
@@ -14,7 +15,11 @@ Desarrollo de un servidor REST API con **Spring Boot** y conexión desde el siti
 
 ## Usuarios para probar la aplicación  
 
-(Más adelante se verá cómo crear usuarios y permisos)
+| Usuario     | Contraseña  | Rol          | Descripción                  |
+| ----------- | ----------- | ------------ | ---------------------------- |
+| `user@example.com`     | `userpass`  | `ROLE_USER`  | Usuario estándar             |
+| `mod@example.com`      | `modpass`   | `ROLE_MOD`   | Moderador con permisos extra |
+| `admin@example.com`     | `adminpass` | `ROLE_ADMIN` | Administrador completo       |
 
 ## Documentación de las API REST  
 
@@ -31,8 +36,8 @@ Desarrollo de un servidor REST API con **Spring Boot** y conexión desde el siti
 
 ```json
 {
-    "username": "jesusito",
-    "password": "admin"
+    "username": "user@example.com",
+    "password": "userpass"
 }
 ```
 
@@ -40,10 +45,10 @@ Si la autenticación es correcta, obtendremos un token JWT en la respuesta.
 
 ```json	
 {
-    "role": "ROLE_ADMIN",
+    "role": "ROLE_USER",
     "token": "{token}",
-    "user": "jesusito"
+    "user": "user@example.com"
 }
 ```
 
-Utilizaremos este token para las siguientes peticiones en el header `Authorization: Bearer <token>`.
+Utilizaremos este token para las siguientes peticiones en el header `Authorization: Bearer {token}`.
