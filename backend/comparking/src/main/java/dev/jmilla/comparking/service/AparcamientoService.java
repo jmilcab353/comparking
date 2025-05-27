@@ -2,7 +2,6 @@ package dev.jmilla.comparking.service;
 
 import dev.jmilla.comparking.dto.AparcamientoDTO;
 import dev.jmilla.comparking.dto.AparcamientoDTOResponse;
-import dev.jmilla.comparking.entity.Aparcamiento;
 import dev.jmilla.comparking.entity.User;
 
 import java.util.List;

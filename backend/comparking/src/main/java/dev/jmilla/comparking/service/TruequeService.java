@@ -2,7 +2,6 @@ package dev.jmilla.comparking.service;
 
 import dev.jmilla.comparking.dto.TruequeDTO;
 import dev.jmilla.comparking.dto.TruequeDTOResponse;
-import dev.jmilla.comparking.entity.Trueque;
 import dev.jmilla.comparking.entity.User;
 
 import java.util.List;

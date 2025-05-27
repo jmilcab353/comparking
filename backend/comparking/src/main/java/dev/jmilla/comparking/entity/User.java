@@ -36,11 +36,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role = "ROLE_USER";
 
-    @NotBlank
     @Size(min = 2, max = 30)
     private String nombre;
 
-    @NotBlank
     @Size(min = 2, max = 100)
     private String apellidos;
 

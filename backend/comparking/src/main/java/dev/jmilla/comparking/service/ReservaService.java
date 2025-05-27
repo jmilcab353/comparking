@@ -3,7 +3,6 @@ package dev.jmilla.comparking.service;
 import dev.jmilla.comparking.dto.ReservaDTO;
 import dev.jmilla.comparking.dto.ReservaDTOResponse;
 import dev.jmilla.comparking.entity.Aparcamiento;
-import dev.jmilla.comparking.entity.Reserva;
 import dev.jmilla.comparking.entity.User;
 
 import java.util.List;
