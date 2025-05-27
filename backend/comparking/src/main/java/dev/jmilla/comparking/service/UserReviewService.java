@@ -18,6 +18,10 @@ public interface UserReviewService {
 
     List<UserReviewDTOResponse> findByReviewed(User reviewed);
 
+    List<UserReviewDTOResponse> findByReviewerId(Long idReviewer);
+
+    List<UserReviewDTOResponse> findByReviewedId(Long idReviewed);
+
     List<UserReviewDTOResponse> findByAparcamiento(Aparcamiento aparcamiento);
 
     UserReviewDTOResponse save(UserReviewDTO dto);

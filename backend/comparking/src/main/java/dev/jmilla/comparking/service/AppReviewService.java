@@ -15,6 +15,8 @@ public interface AppReviewService {
 
     List<AppReviewDTOResponse> findByUser(User user);
 
+    List<AppReviewDTOResponse> findByUsuarioId(Long idUser);
+
     AppReviewDTOResponse save(AppReviewDTO dto);
 
     void deleteById(Long id);

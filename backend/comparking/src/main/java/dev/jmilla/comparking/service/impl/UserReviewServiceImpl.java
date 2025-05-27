@@ -6,6 +6,7 @@ import dev.jmilla.comparking.dto.converter.UserReviewConverter;
 import dev.jmilla.comparking.entity.Aparcamiento;
 import dev.jmilla.comparking.entity.User;
 import dev.jmilla.comparking.entity.UserReview;
+import dev.jmilla.comparking.repository.UserRepository;
 import dev.jmilla.comparking.repository.UserReviewRepository;
 import dev.jmilla.comparking.service.UserReviewService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class UserReviewServiceImpl implements UserReviewService {
 
     private final UserReviewRepository repository;
     private final UserReviewConverter converter;
+    private final UserRepository userRepository;
 
     @Override
     public List<UserReviewDTOResponse> findAll() {
@@ -43,6 +45,24 @@ public class UserReviewServiceImpl implements UserReviewService {
 
     @Override
     public List<UserReviewDTOResponse> findByReviewed(User reviewed) {
+        return repository.findByReviewed(reviewed).stream()
+                .map(converter::toDtoResponse)
+                .toList();
+    }
+
+    @Override
+    public List<UserReviewDTOResponse> findByReviewerId(Long idReviewer) {
+        User reviewer = userRepository.findById(idReviewer)
+                .orElseThrow(() -> new RuntimeException("Usuario revisor no encontrado"));
+        return repository.findByReviewer(reviewer).stream()
+                .map(converter::toDtoResponse)
+                .toList();
+    }
+
+    @Override
+    public List<UserReviewDTOResponse> findByReviewedId(Long idReviewed) {
+        User reviewed = userRepository.findById(idReviewed)
+                .orElseThrow(() -> new RuntimeException("Usuario evaluado no encontrado"));
         return repository.findByReviewed(reviewed).stream()
                 .map(converter::toDtoResponse)
                 .toList();
