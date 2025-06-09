@@ -1,25 +1,60 @@
 <div class="container-fluid bg-dark text-light p-0 landing-wrapper">
-    <div class="container py-5 mt-4">
-        <div class="p-4 bg-opacity-dark rounded-4 shadow-lg text-center welcome-message">
-            <h1 class="display-4 fw-bold mb-3">¡Bienvenidos a Comparking!</h1>
-            <p class="lead mb-4">Alquila, comparte y encuentra aparcamientos fácilmente en tu ciudad.</p>
+    <div class="container py-4 mt-3 flex-grow-1 d-flex align-items-center">
+        <div class="row g-4 align-items-stretch w-100">
 
-            <div class="row justify-content-center mb-4">
-                <div class="col-sm-6 col-md-4 mb-2">
-                    <div class="bg-secondary text-light rounded p-3 shadow-sm">
-                        <h5>+120 usuarios registrados</h5>
-                        <small>Ya forman parte de la comunidad Comparking.</small>
+            <!-- Contenido (izquierda) -->
+            <div class="col-12 col-md-6 d-flex">
+                <div
+                    class="comparking-box text-center welcome-message flex-fill d-flex flex-column justify-content-center">
+                    <h1 class="display-5 fw-bold mb-3">¡Bienvenidos a Comparking!</h1>
+                    <p class="lead mb-4">Alquila, comparte y encuentra aparcamientos fácilmente en tu ciudad.</p>
+
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-6">
+                            <div class="bg-secondary text-light rounded p-3 shadow-sm">
+                                <h5>+120 usuarios registrados</h5>
+                                <small>Ya forman parte de la comunidad Comparking.</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-secondary text-light rounded p-3 shadow-sm">
+                                <h5>+80 plazas compartidas</h5>
+                                <small>Plazas disponibles para alquilar o intercambiar.</small>
+                            </div>
+                        </div>
                     </div>
+
+                    <a routerLink="/register" class="btn btn-primary btn-lg">Regístrate gratis</a>
                 </div>
-                <div class="col-sm-6 col-md-4 mb-2">
-                    <div class="bg-secondary text-light rounded p-3 shadow-sm">
-                        <h5>+80 plazas compartidas</h5>
-                        <small>Plazas disponibles para alquilar o intercambiar.</small>
+            </div>
+
+            <!-- Carrusel (derecha) -->
+            <div class="col-12 col-md-6 d-flex">
+                <div class="comparking-box w-100">
+                    <div id="carouselLanding" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/images/garage-bg-1.jpg" class="d-block w-100 carousel-img" alt="Imagen 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/garage-bg-2.jpg" class="d-block w-100 carousel-img" alt="Imagen 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/images/garage-bg-3.jpg" class="d-block w-100 carousel-img" alt="Imagen 3">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLanding"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselLanding"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <a routerLink="/register" class="btn btn-primary btn-lg">Regístrate gratis</a>
         </div>
     </div>
 </div>
