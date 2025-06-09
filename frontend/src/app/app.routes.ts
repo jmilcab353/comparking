@@ -1,33 +1,66 @@
 import { Routes } from '@angular/router';
-import { ListaCompetidoresComponent } from './lista-competidores/lista-competidores.component';
-import { LoginComponent } from './login/login.component';
 import { LandingComponent } from './landing/landing.component';
-import { AdminComponent } from './admin/admin.component';
-import { adminGuard } from './auth/admin.guard';
-import { ExpertoComponent } from './experto/experto.component';
-import { expertoGuard } from './auth/experto.guard';
-import { EspecialidadesComponent } from './especialidades/especialidades.component';
-import { ExpertosComponent } from './expertos/expertos.component';
-import { GanadoresComponent } from './ganadores/ganadores.component';
-import { ParticipantesComponent } from './participantes/participantes.component';
-import { EvaluarComponent } from './evaluar/evaluar.component';
-import { PruebasComponent } from './pruebas/pruebas.component';
+import { LoginComponent } from './login/login.component';
 import { ByeComponent } from './bye/bye.component';
 
+import { adminGuard } from './auth/admin.guard';
+import { modGuard } from './auth/mod.guard';
+import { userGuard } from './auth/user.guard';
+
+// Públicos
+import { AparcamientosComponent } from './aparcamientos/aparcamientos/aparcamientos.component';
+import { AparcamientoDetalleComponent } from './aparcamientos/aparcamiento-detalle/aparcamiento-detalle.component';
+import { RegisterComponent } from './auth/register/register.component';
+
+// Usuario registrado (ROLE_USER)
+import { PerfilComponent } from './usuario/perfil/perfil/perfil.component';
+import { PublicarComponent } from './usuario/publicar/publicar/publicar.component';
+import { MisAparcamientosComponent } from './usuario/aparcamientos/mis-aparcamientos/mis-aparcamientos.component';
+import { MisReservasComponent } from './usuario/reservas/mis-reservas/mis-reservas.component';
+import { ReservarComponent } from './usuario/reservar/reservar/reservar.component';
+import { MensajesComponent } from './usuario/mensajes/mensajes/mensajes.component';
+import { TruequesComponent } from './usuario/trueques/trueques/trueques.component';
+import { CarteraComponent } from './usuario/cartera/cartera/cartera.component';
+import { DenunciaComponent } from './usuario/denuncia/denuncia/denuncia.component';
+import { ResenaAppComponent } from './usuario/resena/resena-app/resena-app.component';
+
+// Moderador (ROLE_MOD)
+import { ModAnunciosComponent } from './mod/anuncios/mod-anuncios/mod-anuncios.component';
+import { ModDenunciasComponent } from './mod/denuncias/mod-denuncias/mod-denuncias.component';
+
+// Administrador (ROLE_ADMIN)
+import { AdminUsuariosComponent } from './admin/usuarios/admin-usuarios/admin-usuarios.component';
+import { AdminAnunciosComponent } from './admin/anuncios/admin-anuncios/admin-anuncios.component';
+import { AdminCorreccionesComponent } from './admin/correcciones/admin-correcciones/admin-correcciones.component';
+
 export const routes: Routes = [
-    { path: '', component: LandingComponent, pathMatch: 'full' },
-    { path: 'login', component: LoginComponent, pathMatch: 'full' },
-    { path: 'competidores', component: ListaCompetidoresComponent, pathMatch: 'full' },
-    { path: 'bye', component: ByeComponent, pathMatch: 'full' },
-    
-    { path: 'admin', component: AdminComponent, canActivate: [adminGuard], pathMatch: 'full' },
-    { path: 'admin/especialidades', component: EspecialidadesComponent, canActivate: [adminGuard], pathMatch: 'full' },
-    { path: 'admin/expertos', component: ExpertosComponent, canActivate: [adminGuard], pathMatch: 'full' },
-    { path: 'admin/ganadores', component: GanadoresComponent, canActivate: [adminGuard], pathMatch: 'full' },
+  { path: '', component: LandingComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  { path: 'register', component: RegisterComponent, pathMatch: 'full' },
+  { path: 'bye', component: ByeComponent, pathMatch: 'full' },
 
-    { path: 'experto', component: ExpertoComponent, canActivate: [expertoGuard], pathMatch: 'full' },
-    { path: 'experto/participantes', component: ParticipantesComponent, canActivate: [expertoGuard], pathMatch: 'full' },
-    { path: 'experto/evaluar', component: EvaluarComponent, canActivate: [expertoGuard], pathMatch: 'full' },
-    { path: 'experto/pruebas', component: PruebasComponent, canActivate: [expertoGuard], pathMatch: 'full' },
+  // Públicos
+  { path: 'aparcamientos', component: AparcamientosComponent, pathMatch: 'full' },
+  { path: 'aparcamientos/:id', component: AparcamientoDetalleComponent, pathMatch: 'full' },
 
+  // ROLE_USER
+  { path: 'usuario/perfil', component: PerfilComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/publicar', component: PublicarComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/aparcamientos', component: MisAparcamientosComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/reservas', component: MisReservasComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/reservar/:id', component: ReservarComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/mensajes', component: MensajesComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/trueques', component: TruequesComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/cartera', component: CarteraComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/denuncia/:idReserva', component: DenunciaComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/resena-app', component: ResenaAppComponent, canActivate: [userGuard], pathMatch: 'full' },
+
+  // ROLE_MOD
+  { path: 'mod/anuncios', component: ModAnunciosComponent, canActivate: [modGuard], pathMatch: 'full' },
+  { path: 'mod/denuncias', component: ModDenunciasComponent, canActivate: [modGuard], pathMatch: 'full' },
+
+  // ROLE_ADMIN
+  { path: 'admin/usuarios', component: AdminUsuariosComponent, canActivate: [adminGuard], pathMatch: 'full' },
+  { path: 'admin/anuncios', component: AdminAnunciosComponent, canActivate: [adminGuard], pathMatch: 'full' },
+  { path: 'admin/correcciones', component: AdminCorreccionesComponent, canActivate: [adminGuard], pathMatch: 'full' },
 ];
