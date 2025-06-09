@@ -1,1 +1,33 @@
-<p>register works!</p>
+<div class="container my-5 d-flex justify-content-center align-items-center">
+    <div class="comparking-box p-4 w-100" style="max-width: 400px;">
+        <h4 class="text-center mb-4">Registro de usuario</h4>
+
+        <div class="form-group mb-3">
+            <label for="user">Correo electrónico:</label>
+            <input type="text" id="user" name="user" [(ngModel)]="user" class="form-control bg-dark text-light"
+                placeholder="ejemplo@email.com">
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="pass1">Contraseña:</label>
+            <input type="password" id="pass1" name="pass1" [(ngModel)]="pass1" class="form-control bg-dark text-light">
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="pass2">Repite la contraseña:</label>
+            <input type="password" id="pass2" name="pass2" [(ngModel)]="pass2" class="form-control bg-dark text-light">
+        </div>
+
+        <div class="d-grid mb-3">
+            <button class="btn btn-primary" (click)="register()">Registrarse</button>
+        </div>
+
+        <div class="alert alert-danger text-center p-2" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <div class="alert alert-success text-center p-2" *ngIf="successMessage">
+            {{ successMessage }}
+        </div>
+    </div>
+</div>
