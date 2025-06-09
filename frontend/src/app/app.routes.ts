@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { ByeComponent } from './bye/bye.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { adminGuard } from './auth/admin.guard';
 import { modGuard } from './auth/mod.guard';
@@ -63,4 +64,5 @@ export const routes: Routes = [
   { path: 'admin/usuarios', component: AdminUsuariosComponent, canActivate: [adminGuard], pathMatch: 'full' },
   { path: 'admin/anuncios', component: AdminAnunciosComponent, canActivate: [adminGuard], pathMatch: 'full' },
   { path: 'admin/correcciones', component: AdminCorreccionesComponent, canActivate: [adminGuard], pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent }  // Ruta comodín al final
 ];
