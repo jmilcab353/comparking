@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
 
-import { expertoGuard } from './experto.guard';
+import { modGuard } from './mod.guard';
 
-describe('expertoGuard', () => {
+describe('modGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => expertoGuard(...guardParameters));
+      TestBed.runInInjectionContext(() => modGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
