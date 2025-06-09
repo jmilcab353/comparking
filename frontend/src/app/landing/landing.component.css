@@ -30,19 +30,11 @@
     border-radius: 1rem;
 }
 
-/* Caja reutilizable Comparking */
-.comparking-box {
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    padding: 1.5rem;
-}
-
 /* Imágenes con tono grisáceo y blur sutil */
 .carousel-img {
-  height: 100%;
-  max-height: 360px;
-  object-fit: cover;
-  filter: grayscale(10%) brightness(95%) contrast(105%) blur(0.5px);
-  transition: filter 0.3s ease-in-out;
+    height: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    filter: grayscale(10%) brightness(95%) contrast(105%) blur(0.5px);
+    transition: filter 0.3s ease-in-out;
 }

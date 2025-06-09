@@ -111,3 +111,13 @@ h3 {
 .navbar-nav .nav-item {
     margin-right: 0.75em;
 }
+
+/* ----------------------------------------------------
+   COMPONENTE REUTILIZABLE: Caja Comparking
+---------------------------------------------------- */
+.comparking-box {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    padding: 1.5rem;
+}
