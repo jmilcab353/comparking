@@ -65,21 +65,34 @@ public class UserServiceImpl implements UserService {
         Optional<User> optional = repository.findById(id);
 
         if (optional.isEmpty()) {
+            System.out.println(">>> NO se ha encontrado ningún usuario con ID: " + id);
             throw new RuntimeException("Usuario no encontrado");
         }
 
-        User user = optional.get();
-        user.setUsername(dto.username());
-        user.setPassword(passwordEncoder.encode(dto.password())); // Aunque esté vacía, se reencodea
-        user.setNombre(dto.nombre());
-        user.setApellidos(dto.apellidos());
-        user.setDni(dto.dni());
-        user.setFoto(dto.foto());
-        user.setSaldo(dto.saldo());
-        user.setDepositos(dto.depositos());
-        user.setRole(dto.role());
+        System.out.println(">>> Usuario SÍ encontrado en la BD con ID: " + id);
 
-        return repository.save(user);
+        User existing = optional.get();
+
+        // Mantener la contraseña si no se ha proporcionado una nueva válida
+        String passwordFinal = dto.password();
+        if (passwordFinal == null || passwordFinal.trim().isEmpty() || passwordFinal.equals("********")) {
+            passwordFinal = existing.getPassword(); // conservar contraseña anterior
+        } else {
+            passwordFinal = passwordEncoder.encode(passwordFinal); // nueva contraseña encriptada
+        }
+
+        // Asignar campos actualizados
+        existing.setUsername(dto.username());
+        existing.setPassword(passwordFinal);
+        existing.setNombre(dto.nombre());
+        existing.setApellidos(dto.apellidos());
+        existing.setDni(dto.dni());
+        existing.setFoto(dto.foto());
+        existing.setSaldo(dto.saldo());
+        existing.setDepositos(dto.depositos());
+        existing.setRole(dto.role());
+
+        return repository.save(existing);
     }
 
     @Override
