@@ -62,11 +62,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(Long id, UserDTO dto) {
-        return repository.findById(id).map(existing -> {
-            User updated = converter.toEntity(dto);
-            updated.setIdUser(id);
-            return repository.save(updated);
-        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Optional<User> optional = repository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+
+        User user = optional.get();
+        user.setUsername(dto.username());
+        user.setPassword(passwordEncoder.encode(dto.password())); // Aunque esté vacía, se reencodea
+        user.setNombre(dto.nombre());
+        user.setApellidos(dto.apellidos());
+        user.setDni(dto.dni());
+        user.setFoto(dto.foto());
+        user.setSaldo(dto.saldo());
+        user.setDepositos(dto.depositos());
+        user.setRole(dto.role());
+
+        return repository.save(user);
     }
 
     @Override
