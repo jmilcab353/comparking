@@ -1,9 +1,6 @@
 package dev.jmilla.comparking.service.impl;
 
-import dev.jmilla.comparking.dto.UserDTO;
-import dev.jmilla.comparking.dto.UserDTOResponse;
-import dev.jmilla.comparking.dto.UserDataDTO;
-import dev.jmilla.comparking.dto.UserRegisterDTO;
+import dev.jmilla.comparking.dto.*;
 import dev.jmilla.comparking.dto.converter.UserConverter;
 import dev.jmilla.comparking.entity.User;
 import dev.jmilla.comparking.repository.UserRepository;
@@ -105,6 +102,43 @@ public class UserServiceImpl implements UserService {
                         user.getDepositos(), // <- este es el nombre correcto
                         user.getRole()
                 ));
+    }
+
+    @Override
+    public Optional<UserDataDTO> updateUserData(Long id, String usernameAuth, UserDataUpdateDTO dto) {
+        return repository.findById(id)
+                .filter(user -> user.getUsername().equals(usernameAuth))
+                .map(user -> {
+                    user.setNombre(dto.nombre());
+                    user.setApellidos(dto.apellidos());
+                    user.setDni(dto.dni());
+                    user.setFoto(dto.foto());
+                    user.setIban(dto.iban());
+                    user.setUsername(dto.username());
+                    user.setSaldo(dto.saldo()); // saldo se puede actualizar desde front
+
+                    User updated = repository.save(user);
+                    return new UserDataDTO(
+                            updated.getIdUser(),
+                            updated.getUsername(),
+                            updated.getNombre(),
+                            updated.getApellidos(),
+                            updated.getDni(),
+                            updated.getFoto(),
+                            updated.getIban(),
+                            updated.getSaldo(),
+                            updated.getDepositos(),
+                            updated.getRole()
+                    );
+                });
+    }
+
+    @Override
+    public Optional<UserDTOResponse> updatePassword(Long id, String nuevaPassword) {
+        return repository.findById(id).map(user -> {
+            user.setPassword(passwordEncoder.encode(nuevaPassword));
+            return converter.toDtoResponse(repository.save(user));
+        });
     }
 
 }

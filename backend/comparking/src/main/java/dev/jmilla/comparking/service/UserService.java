@@ -1,9 +1,6 @@
 package dev.jmilla.comparking.service;
 
-import dev.jmilla.comparking.dto.UserDTO;
-import dev.jmilla.comparking.dto.UserDTOResponse;
-import dev.jmilla.comparking.dto.UserDataDTO;
-import dev.jmilla.comparking.dto.UserRegisterDTO;
+import dev.jmilla.comparking.dto.*;
 import dev.jmilla.comparking.entity.User;
 
 import java.util.List;
@@ -28,5 +25,9 @@ public interface UserService {
     Optional<UserDTOResponse> findDTOById(Long id);
 
     Optional<UserDataDTO> getUserDataByUsername(String username);
+
+    Optional<UserDataDTO> updateUserData(Long id, String usernameAuth, UserDataUpdateDTO dto);
+
+    Optional<UserDTOResponse> updatePassword(Long id, String nuevaPassword);
 
 }
