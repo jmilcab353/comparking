@@ -37,21 +37,21 @@ public class User implements UserDetails {
     private String role = "ROLE_USER";
 
     @Size(min = 2, max = 30)
-    private String nombre;
+    private String nombre = "Nombre";
 
     @Size(min = 2, max = 100)
-    private String apellidos;
+    private String apellidos = "Apellidos";
 
     @Pattern(regexp = "^[0-9]{8}[A-Za-z]$", message = "El DNI debe tener 8 números y una letra")
-    private String dni;
+    private String dni = "00000000A";
 
     private String foto;
 
-    private String iban;
+    private String iban = "ES00 0000 0000 00 0000000000";
 
-    private Float saldo;
+    private Float saldo = 0f;
 
-    private Float depositos;
+    private Float depositos = 50f;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
