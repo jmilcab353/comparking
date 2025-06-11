@@ -24,7 +24,13 @@
                         </div>
                     </div>
 
-                    <a routerLink="/register" class="btn btn-primary btn-lg">Regístrate gratis</a>
+                    <!-- Mostrar botón según si el usuario está logueado -->
+                    <a *ngIf="!isLogged()" routerLink="/register" class="btn btn-primary btn-lg">
+                        Regístrate gratis
+                    </a>
+                    <a *ngIf="isLogged()" routerLink="/aparcamientos" class="btn btn-primary btn-lg">
+                        Comienza a buscar tu aparcamiento
+                    </a>
                 </div>
             </div>
 
