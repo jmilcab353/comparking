@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,12 @@ export class UsuariosService {
     return this.http.put<any>(`${this.apiUrl}/${id}`, datos, { headers: this.getHeaders() });
   }
 
+  updateUsuarioAdmin(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/admin/${id}`, data, {
+      headers: this.getHeaders()
+    });
+  }
+
   deleteUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
@@ -60,8 +66,8 @@ export class UsuariosService {
 
   subirFoto(id: number, formData: FormData): Observable<string> {
     return this.http.post(`${this.apiUrl}/${id}/foto`, formData, {
-      headers: this.getHeaders().delete('Content-Type'), // ⚠️ multipart sin Content-Type
-      responseType: 'text' // porque el backend devuelve una URL como texto
+      headers: this.getHeaders().delete('Content-Type'),
+      responseType: 'text'
     });
   }
 

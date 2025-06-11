@@ -146,14 +146,48 @@ h3 {
 }
 
 .foto-perfil {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid var(--comparking-color);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--comparking-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 .comparking-warning {
     color: var(--comparking-warning)
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.modal-box {
+    background-color: var(--color-bg-dark);
+    color: var(--color-light);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 90vw;             /* Máximo 90% del ancho del viewport */
+    max-width: 700px;        /* Pero no más de 700px en pantallas grandes */
+    max-height: 90vh;        /* También restringimos la altura */
+    overflow-y: auto;        /* Scroll si se desborda */
+    box-shadow: 0 0 12px var(--color-shadow);
+}
+
+/* Para móviles */
+@media (max-width: 576px) {
+    .modal-box {
+        width: 95vw;
+        padding: 1.5rem;
+    }
+}
+
+.scrollable-modal {
+    max-height: 100%;
 }
