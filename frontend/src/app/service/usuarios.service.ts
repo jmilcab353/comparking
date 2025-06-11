@@ -58,4 +58,11 @@ export class UsuariosService {
     return this.http.patch<any>(`${this.apiUrl}/${id}/password`, body, { headers: this.getHeaders() });
   }
 
+  subirFoto(id: number, formData: FormData): Observable<string> {
+    return this.http.post(`${this.apiUrl}/${id}/foto`, formData, {
+      headers: this.getHeaders().delete('Content-Type'), // ⚠️ multipart sin Content-Type
+      responseType: 'text' // porque el backend devuelve una URL como texto
+    });
+  }
+
 }

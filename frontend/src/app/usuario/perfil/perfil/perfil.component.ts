@@ -22,8 +22,9 @@ export class PerfilComponent implements OnInit {
   mensaje = '';
   errorMessage = '';
   errorPassword = '';
+  errorSaldo = '';
 
-  constructor(private usuariosService: UsuariosService) {}
+  constructor(private usuariosService: UsuariosService) { }
 
   ngOnInit(): void {
     this.usuariosService.getMisDatos().subscribe({
@@ -122,6 +123,7 @@ export class PerfilComponent implements OnInit {
     this.showPasswordModal = false;
     this.showSaldoModal = false;
     this.errorPassword = '';
+    this.errorSaldo = '';
   }
 
   actualizarContrasena(): void {
@@ -156,8 +158,10 @@ export class PerfilComponent implements OnInit {
   }
 
   agregarSaldo(): void {
+    this.errorSaldo = '';
+
     if (this.ingreso <= 0) {
-      this.mensaje = 'El monto debe ser mayor a 0.';
+      this.errorSaldo = 'El monto debe ser mayor a 0.';
       return;
     }
 
@@ -176,8 +180,27 @@ export class PerfilComponent implements OnInit {
         this.mensaje = `Saldo actualizado. Se añadieron ${this.ingreso.toFixed(2)} €.`;
       },
       error: () => {
-        this.mensaje = 'No se pudo añadir el saldo.';
+        this.errorSaldo = 'No se pudo añadir el saldo.';
       }
     });
   }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      this.usuariosService.subirFoto(this.usuario.id, formData).subscribe({
+        next: (url) => {
+          this.usuario.foto = url;
+          this.mensaje = 'Foto actualizada correctamente.';
+        },
+        error: () => {
+          this.errorMessage = 'No se pudo subir la foto.';
+        }
+      });
+    }
+  }
+
 }

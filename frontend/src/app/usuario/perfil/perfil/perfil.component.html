@@ -1,77 +1,88 @@
 <div class="container my-5">
   <div class="comparking-box">
-    <h2 class="mb-4">Mi Perfil</h2>
+    <h2 class="mb-4 text-center">Mi Perfil</h2>
 
     <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
     <div *ngIf="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</div>
 
-    <div *ngIf="!editMode">
-      <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
-      <p><strong>Apellidos:</strong> {{ usuario.apellidos }}</p>
-      <p><strong>DNI:</strong> {{ usuario.dni }}</p>
-      <p><strong>Foto:</strong> {{ usuario.foto }}</p>
-      <p><strong>IBAN:</strong> {{ usuario.iban }}</p>
-      <p><strong>Email:</strong> {{ usuario.username }}</p>
-      <p><strong>Saldo:</strong> {{ usuario.saldo | number:'1.2-2' }} €</p>
-      <p><strong>Depósito:</strong> {{ usuario.deposito | number:'1.2-2' }} €</p>
+    <div class="row">
+      <!-- COLUMNA IZQUIERDA: FOTO -->
+      <div class="col-md-4 text-center mt-2 mb-4 mb-md-0 d-flex flex-column align-items-center justify-content-start">
+        <!-- <img [src]="usuario.foto ? 'http://localhost:9000' + usuario.foto : 'public/images/avatar.webp'"
+          class="foto-perfil mb-3" alt="Foto de perfil" /> -->
+        <img [src]="usuario.foto ? 'http://localhost:9000' + usuario.foto : '/images/no-profile.png'"
+          class="foto-perfil mb-3" alt="Foto de perfil" />
 
-      <button class="btn btn-outline-primary me-2" (click)="editMode = true">Editar</button>
-      <button class="btn btn-outline-warning me-2" (click)="abrirModalContrasena()">Cambiar contraseña</button>
-      <button class="btn btn-outline-success" (click)="abrirModalSaldo()">Añadir fondos</button>
-    </div>
-
-    <div *ngIf="editMode">
-      <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
-        <input type="text" id="nombre" [(ngModel)]="usuario.nombre"
-          [class.border-danger]="nombreInvalido"
-          class="form-control bg-dark text-white border-secondary" placeholder="Ej. Juan">
+        <div *ngIf="editMode" class="w-100 px-3">
+          <input type="file" id="fotoUpload" (change)="onFileSelected($event)" accept="image/*"
+            class="form-control bg-dark text-white border-secondary">
+        </div>
       </div>
 
-      <div class="mb-3">
-        <label for="apellidos" class="form-label">Apellidos <span class="text-danger">*</span></label>
-        <input type="text" id="apellidos" [(ngModel)]="usuario.apellidos"
-          [class.border-danger]="apellidosInvalido"
-          class="form-control bg-dark text-white border-secondary" placeholder="Ej. Pérez García">
-      </div>
+      <!-- COLUMNA DERECHA: DATOS -->
+      <div class="col-md-8">
+        <ng-container *ngIf="!editMode; else modoEdicion">
+          <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+          <p><strong>Apellidos:</strong> {{ usuario.apellidos }}</p>
+          <p><strong>DNI:</strong> {{ usuario.dni }}</p>
+          <p><strong>IBAN:</strong> {{ usuario.iban }}</p>
+          <p><strong>Email:</strong> {{ usuario.username }}</p>
+          <p><strong>Saldo:</strong> {{ usuario.saldo | number:'1.2-2' }} €</p>
+          <p><strong>Depósito:</strong> {{ usuario.deposito | number:'1.2-2' }} €</p>
 
-      <div class="mb-3">
-        <label for="dni" class="form-label">DNI</label>
-        <input type="text" id="dni" [(ngModel)]="usuario.dni"
-          [class.border-danger]="dniInvalido"
-          class="form-control bg-dark text-white border-secondary" placeholder="Ej. 12345678Z">
-      </div>
+          <div class="mt-4">
+            <button class="btn btn-outline-primary me-2" (click)="editMode = true">Editar</button>
+            <button class="btn btn-outline-warning me-2" (click)="abrirModalContrasena()">Cambiar contraseña</button>
+            <button class="btn btn-outline-success" (click)="abrirModalSaldo()">Añadir fondos</button>
+          </div>
+        </ng-container>
 
-      <div class="mb-3">
-        <label for="foto" class="form-label">Foto (URL)</label>
-        <input type="text" id="foto" [(ngModel)]="usuario.foto"
-          class="form-control bg-dark text-white border-secondary">
-      </div>
+        <ng-template #modoEdicion>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" id="nombre" [(ngModel)]="usuario.nombre" [class.border-danger]="nombreInvalido"
+              class="form-control bg-dark text-white border-secondary">
+          </div>
 
-      <div class="mb-3">
-        <label for="iban" class="form-label">IBAN</label>
-        <input type="text" id="iban" [(ngModel)]="usuario.iban"
-          class="form-control bg-dark text-white border-secondary">
-      </div>
+          <div class="mb-3">
+            <label for="apellidos" class="form-label">Apellidos <span class="text-danger">*</span></label>
+            <input type="text" id="apellidos" [(ngModel)]="usuario.apellidos" [class.border-danger]="apellidosInvalido"
+              class="form-control bg-dark text-white border-secondary">
+          </div>
 
-      <div class="mb-3">
-        <label class="form-label">Email <span class="text-danger">*</span></label>
-        <input type="email" [value]="usuario.username" readonly class="form-control bg-secondary text-white">
-      </div>
+          <div class="mb-3">
+            <label for="dni" class="form-label">DNI</label>
+            <input type="text" id="dni" [(ngModel)]="usuario.dni" [class.border-danger]="dniInvalido"
+              class="form-control bg-dark text-white border-secondary">
+          </div>
 
-      <div class="mb-3">
-        <label class="form-label">Saldo (€)</label>
-        <input type="number" [(ngModel)]="usuario.saldo"
-          class="form-control bg-dark text-white border-secondary">
-      </div>
+          <div class="mb-3">
+            <label for="iban" class="form-label">IBAN</label>
+            <input type="text" id="iban" [(ngModel)]="usuario.iban"
+              class="form-control bg-dark text-white border-secondary">
+          </div>
 
-      <div class="mb-3">
-        <label class="form-label">Depósito (€)</label>
-        <input type="number" [value]="usuario.deposito" readonly class="form-control bg-secondary text-white">
-      </div>
+          <div class="mb-3">
+            <label class="form-label">Email <span class="text-danger">*</span></label>
+            <input type="email" [value]="usuario.username" readonly class="form-control bg-secondary text-white">
+          </div>
 
-      <button class="btn btn-success me-2" (click)="guardarCambios()">Guardar</button>
-      <button class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+          <div class="mb-3">
+            <label class="form-label">Saldo (€)</label>
+            <input type="number" [value]="usuario.saldo" readonly class="form-control bg-secondary text-white">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Depósito (€)</label>
+            <input type="number" [value]="usuario.deposito" readonly class="form-control bg-secondary text-white">
+          </div>
+
+          <div class="mt-3">
+            <button class="btn btn-success me-2" (click)="guardarCambios()">Guardar</button>
+            <button class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+          </div>
+        </ng-template>
+      </div>
     </div>
   </div>
 
@@ -82,17 +93,15 @@
       <h4 class="mb-3">Cambiar contraseña</h4>
       <div class="mb-3">
         <label for="pass1" class="form-label">Nueva contraseña <span class="text-danger">*</span></label>
-        <input type="password" id="pass1" [(ngModel)]="nuevaPassword"
-          [class.border-danger]="errorPassword"
+        <input type="password" id="pass1" [(ngModel)]="nuevaPassword" [class.border-danger]="errorPassword"
           class="form-control bg-dark text-white border-secondary">
       </div>
       <div class="mb-3">
         <label for="pass2" class="form-label">Repetir contraseña <span class="text-danger">*</span></label>
-        <input type="password" id="pass2" [(ngModel)]="repetirPassword"
-          [class.border-danger]="errorPassword"
+        <input type="password" id="pass2" [(ngModel)]="repetirPassword" [class.border-danger]="errorPassword"
           class="form-control bg-dark text-white border-secondary">
       </div>
-      <div *ngIf="errorPassword" class="alert alert-danger mt-2 text-center">
+      <div *ngIf="errorPassword" class="alert alert-danger text-center">
         {{ errorPassword }}
       </div>
       <button class="btn btn-success me-2" (click)="actualizarContrasena()">Guardar</button>
@@ -105,11 +114,17 @@
     class="position-fixed top-0 start-0 w-100 h-100 bg-opacity-dark d-flex justify-content-center align-items-center">
     <div class="comparking-box w-50">
       <h4 class="mb-3">Añadir fondos</h4>
+
       <div class="mb-3">
         <label for="ingreso" class="form-label">Cantidad a añadir (€)</label>
-        <input type="number" id="ingreso" [(ngModel)]="ingreso"
-          class="form-control bg-dark text-white border-secondary">
+        <input type="number" id="ingreso" [(ngModel)]="ingreso" class="form-control bg-dark text-white border-secondary"
+          [class.border-danger]="errorSaldo">
       </div>
+
+      <div *ngIf="errorSaldo" class="alert alert-danger text-center">
+        {{ errorSaldo }}
+      </div>
+
       <button class="btn btn-success me-2" (click)="agregarSaldo()">Añadir</button>
       <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
     </div>

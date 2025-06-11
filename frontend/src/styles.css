@@ -134,11 +134,20 @@ h3 {
 }
 
 /* ----------------------------------------------------
-   COMPONENTE REUTILIZABLE: Caja Comparking
+   COMPONENTE REUTILIZABLES
 ---------------------------------------------------- */
 .comparking-box {
     background-color: var(--color-box-bg);
     border-radius: 1rem;
     box-shadow: 0 4px 12px var(--color-border);
     padding: 1.5rem;
+}
+
+.foto-perfil {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--comparking-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
