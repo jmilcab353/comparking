@@ -7,10 +7,13 @@ import dev.jmilla.comparking.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -80,5 +83,23 @@ public class UserController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/{id}/foto")
+    @Operation(summary = "Subir foto de perfil", description = "Permite subir una imagen para el perfil del usuario")
+    public ResponseEntity<String> uploadFotoPerfil(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            @AuthenticationPrincipal(expression = "username") String usernameAuth
+    ) {
+        try {
+            String url = userService.guardarFotoPerfil(id, usernameAuth, file);
+            return ResponseEntity.ok(url);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la imagen");
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No autorizado");
+        }
+    }
+
 
 }

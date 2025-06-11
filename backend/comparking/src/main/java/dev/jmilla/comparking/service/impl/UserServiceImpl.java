@@ -8,9 +8,16 @@ import dev.jmilla.comparking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -139,6 +146,24 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(nuevaPassword));
             return converter.toDtoResponse(repository.save(user));
         });
+    }
+
+    @Override
+    public String guardarFotoPerfil(Long id, String usernameAuth, MultipartFile file) throws IOException {
+        User user = repository.findById(id)
+                .filter(u -> u.getUsername().equals(usernameAuth))
+                .orElseThrow(() -> new SecurityException("No autorizado"));
+
+        String nombreArchivo = UUID.randomUUID() + "-" + file.getOriginalFilename();
+        Path rutaDestino = Paths.get("uploads/fotos").resolve(nombreArchivo);
+
+        Files.createDirectories(rutaDestino.getParent());
+        Files.copy(file.getInputStream(), rutaDestino, StandardCopyOption.REPLACE_EXISTING);
+
+        user.setFoto("/uploads/fotos/" + nombreArchivo); // Ruta para mostrarla
+        repository.save(user);
+
+        return user.getFoto();
     }
 
 }
