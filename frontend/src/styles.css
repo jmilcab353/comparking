@@ -11,6 +11,8 @@
     --comparking-color-darker: #20628d;
     --white-text-hover: #e8fa8c;
 
+    --comparking-warning: #ffd000;
+
     --color-bg-dark: #121212;
     --color-white: #ffffff;
     --color-light: #f8f9fa;
@@ -150,4 +152,8 @@ h3 {
   border-radius: 50%;
   border: 3px solid var(--comparking-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.comparking-warning {
+    color: var(--comparking-warning)
 }

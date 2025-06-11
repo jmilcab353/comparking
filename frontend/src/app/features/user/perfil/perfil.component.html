@@ -2,6 +2,9 @@
   <div class="comparking-box">
     <h2 class="mb-4 text-center">Mi Perfil</h2>
 
+    <p class="text-center small comparking-warning"><i class="bi bi-exclamation-triangle me-2"></i>Recuerda editar y revisar tus datos
+      (especialmente si es la primera vez que inicias sesión)</p>
+
     <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
     <div *ngIf="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</div>
 

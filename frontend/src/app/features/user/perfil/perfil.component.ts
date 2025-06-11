@@ -161,7 +161,7 @@ export class PerfilComponent implements OnInit {
     this.errorSaldo = '';
 
     if (this.ingreso <= 0) {
-      this.errorSaldo = 'El monto debe ser mayor a 0.';
+      this.errorSaldo = 'La cantidad debe ser mayor a 0.';
       return;
     }
 
