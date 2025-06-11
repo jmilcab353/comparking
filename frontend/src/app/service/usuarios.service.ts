@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UsuariosService {
   private apiUrl = 'http://localhost:9000/api/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const loginData = sessionStorage.getItem('LOGIN');
@@ -37,17 +37,25 @@ export class UsuariosService {
     return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
+  getMisDatos(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/me`, { headers: this.getHeaders() });
+  }
+
   createUsuario(usuario: any): Observable<any> {
-    const apiUrl = 'http://localhost:9000/auth/register';  // URL del endpoint de registro
+    const apiUrl = 'http://localhost:9000/auth/register';
     return this.http.post<any>(apiUrl, usuario, { headers: this.getHeaders() });
   }
 
-  updateUsuario(id: number, usuario: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, usuario, { headers: this.getHeaders() });
+  updateUsuario(id: number, datos: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, datos, { headers: this.getHeaders() });
   }
 
   deleteUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
-  
+
+  actualizarPassword(id: number, body: { nuevaPassword: string }): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/password`, body, { headers: this.getHeaders() });
+  }
+
 }
