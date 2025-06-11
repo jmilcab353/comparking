@@ -1,38 +1,38 @@
-import { Routes } from '@angular/router';
-import { LandingComponent } from './landing/landing.component';
-import { LoginComponent } from './login/login.component';
-import { ByeComponent } from './bye/bye.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import {Routes} from '@angular/router';
+import {LandingComponent} from './shared/landing/landing.component';
+import {ByeComponent} from './shared/bye/bye.component';
+import {NotFoundComponent} from './shared/not-found/not-found.component';
+import {LoginComponent} from './auth/login/login.component';
+import {RegisterComponent} from './auth/register/register.component';
 
-import { adminGuard } from './auth/admin.guard';
-import { modGuard } from './auth/mod.guard';
-import { userGuard } from './auth/user.guard';
+import {adminGuard} from './core/guards/admin.guard';
+import {modGuard} from './core/guards/mod.guard';
+import {userGuard} from './core/guards/user.guard';
 
 // Públicos
-import { AparcamientosComponent } from './aparcamientos/aparcamientos/aparcamientos.component';
-import { AparcamientoDetalleComponent } from './aparcamientos/aparcamiento-detalle/aparcamiento-detalle.component';
-import { RegisterComponent } from './auth/register/register.component';
+import {AparcamientosComponent} from './features/public/aparcamientos/aparcamientos.component';
+import {AparcamientoDetalleComponent} from './features/public/aparcamiento-detalle/aparcamiento-detalle.component';
 
 // Usuario registrado (ROLE_USER)
-import { PerfilComponent } from './usuario/perfil/perfil/perfil.component';
-import { PublicarComponent } from './usuario/publicar/publicar/publicar.component';
-import { MisAparcamientosComponent } from './usuario/aparcamientos/mis-aparcamientos/mis-aparcamientos.component';
-import { MisReservasComponent } from './usuario/reservas/mis-reservas/mis-reservas.component';
-import { ReservarComponent } from './usuario/reservar/reservar/reservar.component';
-import { MensajesComponent } from './usuario/mensajes/mensajes/mensajes.component';
-import { TruequesComponent } from './usuario/trueques/trueques/trueques.component';
-import { CarteraComponent } from './usuario/cartera/cartera/cartera.component';
-import { DenunciaComponent } from './usuario/denuncia/denuncia/denuncia.component';
-import { ResenaAppComponent } from './usuario/resena/resena-app/resena-app.component';
+import {PerfilComponent} from './features/user/perfil/perfil.component';
+import {PublicarComponent} from './features/user/publicar/publicar.component';
+import {MisAparcamientosComponent} from './features/user/mis-aparcamientos/mis-aparcamientos.component';
+import {MisReservasComponent} from './features/user/mis-reservas/mis-reservas.component';
+import {ReservarComponent} from './features/user/reservar/reservar.component';
+import {MensajesComponent} from './features/user/mensajes/mensajes.component';
+import {TruequesComponent} from './features/user/trueques/trueques.component';
+import {CarteraComponent} from './features/user/cartera/cartera.component';
+import {DenunciaComponent} from './features/user/denuncia/denuncia.component';
+import {ResenaAppComponent} from './features/user/resena-app/resena-app.component';
 
 // Moderador (ROLE_MOD)
-import { ModAnunciosComponent } from './mod/anuncios/mod-anuncios/mod-anuncios.component';
-import { ModDenunciasComponent } from './mod/denuncias/mod-denuncias/mod-denuncias.component';
+import {ModAnunciosComponent} from './features/mod/mod-anuncios/mod-anuncios.component';
+import {ModDenunciasComponent} from './features/mod/mod-denuncias/mod-denuncias.component';
 
 // Administrador (ROLE_ADMIN)
-import { AdminUsuariosComponent } from './admin/usuarios/admin-usuarios/admin-usuarios.component';
-import { AdminAnunciosComponent } from './admin/anuncios/admin-anuncios/admin-anuncios.component';
-import { AdminCorreccionesComponent } from './admin/correcciones/admin-correcciones/admin-correcciones.component';
+import {AdminUsuariosComponent} from './features/admin/admin-usuarios/admin-usuarios.component';
+import {AdminAnunciosComponent} from './features/admin/admin-anuncios/admin-anuncios.component';
+import {AdminCorreccionesComponent} from './features/admin/admin-correcciones/admin-correcciones.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -64,5 +64,6 @@ export const routes: Routes = [
   { path: 'admin/usuarios', component: AdminUsuariosComponent, canActivate: [adminGuard], pathMatch: 'full' },
   { path: 'admin/anuncios', component: AdminAnunciosComponent, canActivate: [adminGuard], pathMatch: 'full' },
   { path: 'admin/correcciones', component: AdminCorreccionesComponent, canActivate: [adminGuard], pathMatch: 'full' },
+
   { path: '**', component: NotFoundComponent }  // Ruta comodín al final
 ];

@@ -1,0 +1,51 @@
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EspecialidadesService {
+  private apiUrl = 'http://localhost:9000/api/especialidad';
+
+  constructor(private http: HttpClient) { }
+
+  private getHeaders(): HttpHeaders {
+    const loginData = sessionStorage.getItem('LOGIN');
+
+    let token = '';
+    if (loginData) {
+      try {
+        const parsedData = JSON.parse(loginData);
+        token = parsedData.token; // Extrae el token correctamente
+      } catch (error) {
+        console.error('Error parsing LOGIN data from sessionStorage', error);
+      }
+    }
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  getEspecialidades(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() });
+  }
+
+  getEspecialidad(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createEspecialidad(especialidad: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, especialidad, { headers: this.getHeaders() });
+  }
+
+  updateEspecialidad(id: number, especialidad: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, especialidad, { headers: this.getHeaders() });
+  }
+
+  deleteEspecialidad(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
+}
