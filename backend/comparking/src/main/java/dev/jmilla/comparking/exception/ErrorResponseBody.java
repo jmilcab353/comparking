@@ -16,11 +16,13 @@ public class ErrorResponseBody {
 
     private String message;
 
+    private Integer httpCode;
+
     @Builder.Default
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    public ErrorResponseBody(String error, String message) {
-        this(error, message, LocalDateTime.now());
+    public ErrorResponseBody(String error, String message, Integer httpCode) {
+        this(error, message, httpCode, LocalDateTime.now());
     }
 }

@@ -26,7 +26,7 @@ public class ConstantErrors {
     public static final String DATA_INTEGRITY_MESSAGE = "No se puede completar la operación debido a restricciones de la base de datos: ";
 
     public static final String SQL_EXCEPTION_TITLE = "Error en la base de datos";
-    public static final String SQL_EXCEPTION_MESSAGE = "Se ha producido un problema al procesar la solicitud: ";
+    public static final String SQL_EXCEPTION_MESSAGE = "Se ha producido un problema al procesar la solicitud.";
 
     // ─────────────────────────────
     // Errores de seguridad / JWT
