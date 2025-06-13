@@ -54,6 +54,6 @@ public class AuthController {
                 .findFirst()
                 .orElse("ROLE_USER");
 
-        return new LoginResponse(role, token, user.getUsername());
+        return new LoginResponse(user.getIdUser(), role, token, user.getUsername());
     }
 }

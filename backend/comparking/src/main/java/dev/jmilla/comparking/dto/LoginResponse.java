@@ -1,4 +1,4 @@
 package dev.jmilla.comparking.dto;
 
-public record LoginResponse(String role, String token, String username) {
+public record LoginResponse(Long id, String role, String token, String username) {
 }

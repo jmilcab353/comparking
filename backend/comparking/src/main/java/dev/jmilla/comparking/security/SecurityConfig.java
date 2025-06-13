@@ -45,11 +45,21 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/api/public/**",
-                                "/uploads/**"
+                                "/uploads/**",
+                                "/api/aparcamientos/**",
+                                "/api/app-reviews/**",
+                                "/api/user-reviews/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/mod/**").hasRole("MOD")
-                        .requestMatchers("/api/user/**", "/api/usuarios/**").hasAnyRole("USER", "MOD", "ADMIN")
+                        .requestMatchers(
+                                "/api/user/**",
+                                "/api/usuarios/**",
+                                "/api/denuncias/**",
+                                "/api/mensajes/**",
+                                "/api/reservas/**",
+                                "/api/trueques/**"
+                        ).hasAnyRole("USER", "MOD", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
