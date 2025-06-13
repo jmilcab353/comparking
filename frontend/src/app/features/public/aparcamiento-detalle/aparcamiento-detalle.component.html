@@ -33,13 +33,13 @@
         [class.aparcamiento-bloqueado]="estaReservado(a.id)">
         <div class="d-flex justify-content-between align-items-center flex-wrap">
             <div class="me-3">
-                <h5 class="mb-1">{{ a.direccion }}</h5>
-                <p class="mb-1">{{ a.localidad }} ({{ a.provincia }})</p>
-                <p class="mb-1"><strong>Precio/hora:</strong> {{ a.precioHora }} €</p>
-                <p class="mb-1"><strong>Precio/día:</strong> {{ a.precioDia }} €</p>
-                <p class="mb-1"><strong>Dimensiones:</strong> {{ a.ancho }} cm x {{ a.largo }} cm (ancho x largo)</p>
-                <p class="mb-1" *ngIf="a.detalles"><strong>Detalles:</strong> {{ a.detalles }}</p>
-                <p class="mb-1"><strong>Techado:</strong> {{ a.techado ? 'Sí' : 'No' }}</p>
+                <h4 class="mb-2">{{ a.direccion }}</h4>
+                <p class="mb-1"><strong class="highlighted-text">Localidad (provincia): </strong>{{ a.localidad }} ({{ a.provincia }})</p>
+                <p class="mb-1"><strong class="highlighted-text">Precio/hora:</strong> {{ a.precioHora }} €</p>
+                <p class="mb-1"><strong class="highlighted-text">Precio/día:</strong> {{ a.precioDia }} €</p>
+                <p class="mb-1"><strong class="highlighted-text">Dimensiones:</strong> {{ a.ancho }} cm x {{ a.largo }} cm (ancho x largo)</p>
+                <p class="mb-1" *ngIf="a.detalles"><strong class="highlighted-text">Detalles:</strong> {{ a.detalles }}</p>
+                <p class="mb-1"><strong class="highlighted-text">Techado:</strong> {{ a.techado ? 'Sí' : 'No' }}</p>
                 <button *ngIf="logueado && !estaReservado(a.id)" class="btn btn-success btn-sm"
                     (click)="abrirModalReserva(a)">
                     Reservar
