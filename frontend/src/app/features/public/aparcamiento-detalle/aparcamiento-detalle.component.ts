@@ -22,8 +22,8 @@ export class AparcamientoDetalleComponent implements OnInit {
 
   mostrarModalReserva = false;
   reservaRealizada = false;
-
   aparcamientoSeleccionado: any = null;
+
   reservaForm: any = {
     fechaInicio: '',
     fechaFin: '',
@@ -33,11 +33,15 @@ export class AparcamientoDetalleComponent implements OnInit {
   usuario: any = null;
   errorReserva = '';
 
-  // Filtros
   filtroLocalidad: string = '';
   filtroProvincia: string = '';
   filtroPrecioHora: number | null = null;
   filtroPrecioDia: number | null = null;
+
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+
+  imagenEnAmpliacion: string | null = null;
 
   constructor(
     private aparcamientosService: AparcamientosService,
@@ -59,16 +63,48 @@ export class AparcamientoDetalleComponent implements OnInit {
     });
 
     this.reservasService.getReservas().subscribe({
-      next: data => this.reservas = data
+      next: data => this.reservas = data || [],
+      error: () => this.reservas = []
+    });
+
+    this.usuariosService.getMisDatos().subscribe({
+      next: data => this.usuario = data
     });
   }
 
   estaReservado(aparcamientoId: number): boolean {
-    return Array.isArray(this.reservas) &&
-      this.reservas.some(r =>
-        r.aparcamientoId === aparcamientoId &&
-        r.pagoConfirmado === true
-      );
+    if (!Array.isArray(this.reservas)) return false;
+    return this.reservas.some(r =>
+      r.aparcamientoId === aparcamientoId &&
+      r.pagoConfirmado === true
+    );
+  }
+
+  get aparcamientosFiltrados(): any[] {
+    return this.aparcamientos.filter(a => {
+      return !this.estaReservado(a.id) &&
+        a.userId !== this.usuario?.id && // ✅ evitar los propios
+        (!this.filtroLocalidad || a.localidad.toLowerCase().includes(this.filtroLocalidad.toLowerCase())) &&
+        (!this.filtroProvincia || a.provincia.toLowerCase().includes(this.filtroProvincia.toLowerCase())) &&
+        (!this.filtroPrecioHora || a.precioHora <= this.filtroPrecioHora) &&
+        (!this.filtroPrecioDia || a.precioDia <= this.filtroPrecioDia);
+    });
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.aparcamientosFiltrados.length / this.itemsPerPage);
+  }
+
+  get aparcamientosPaginados(): any[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.aparcamientosFiltrados.slice(start, start + this.itemsPerPage);
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPages) {
+      this.currentPage = pagina;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   abrirModalReserva(aparcamiento: any): void {
@@ -79,7 +115,7 @@ export class AparcamientoDetalleComponent implements OnInit {
     this.reservaRealizada = false;
 
     this.usuariosService.getMisDatos().subscribe({
-      next: (data) => this.usuario = data,
+      next: data => this.usuario = data,
       error: () => this.errorReserva = 'Error al cargar tus datos'
     });
   }
@@ -98,21 +134,33 @@ export class AparcamientoDetalleComponent implements OnInit {
     const inicio = new Date(this.reservaForm.fechaInicio);
     const fin = new Date(this.reservaForm.fechaFin);
 
+    if (!this.reservaForm.tipoPago) {
+      this.errorReserva = 'Debes elegir si la reserva es por hora o por día.';
+      this.precioCalculado = 0;
+      return;
+    }
+
     if (fin <= inicio) {
       this.errorReserva = 'La fecha de fin debe ser posterior a la de inicio.';
       this.precioCalculado = 0;
       return;
     }
 
-    const horas = (fin.getTime() - inicio.getTime()) / (1000 * 60 * 60);
-    const precioHora = this.aparcamientoSeleccionado.precioHora;
-    this.precioCalculado = parseFloat((horas * precioHora).toFixed(2));
+    if (this.reservaForm.tipoPago === 'horario') {
+      const horas = (fin.getTime() - inicio.getTime()) / (1000 * 60 * 60);
+      this.precioCalculado = parseFloat((horas * this.aparcamientoSeleccionado.precioHora).toFixed(2));
+    } else {
+      const dias = Math.ceil((fin.getTime() - inicio.getTime()) / (1000 * 60 * 60 * 24));
+      this.precioCalculado = parseFloat((dias * this.aparcamientoSeleccionado.precioDia).toFixed(2));
+    }
 
     if (this.usuario.saldo < this.precioCalculado) {
-      this.errorReserva = `No tienes saldo suficiente. Necesitas ${this.precioCalculado} €.`;
+      this.errorReserva = `No tienes saldo suficiente. Necesitas ${this.precioCalculado} €. ` +
+        `<br><a href="/usuario/perfil" class="btn btn-outline-danger btn-sm ms-2 mt-2">Recargar saldo</a>`;
     } else {
       this.errorReserva = '';
     }
+
   }
 
   confirmarReserva(): void {
@@ -137,9 +185,7 @@ export class AparcamientoDetalleComponent implements OnInit {
         this.usuariosService.updateUsuario(this.usuario.id, this.usuario).subscribe({
           next: () => {
             this.reservaRealizada = true;
-            setTimeout(() => {
-              this.router.navigate(['/aparcamientos/reservados']);
-            }, 2000);
+            setTimeout(() => this.router.navigate(['/aparcamientos/reservados']), 2000);
           },
           error: () => {
             this.mensaje = 'Reserva creada, pero no se pudo actualizar el saldo.';
@@ -151,12 +197,11 @@ export class AparcamientoDetalleComponent implements OnInit {
     });
   }
 
-  get aparcamientosFiltrados(): any[] {
-    return this.aparcamientos.filter(a => {
-      return (!this.filtroLocalidad || a.localidad.toLowerCase().includes(this.filtroLocalidad.toLowerCase())) &&
-        (!this.filtroProvincia || a.provincia.toLowerCase().includes(this.filtroProvincia.toLowerCase())) &&
-        (!this.filtroPrecioHora || a.precioHora <= this.filtroPrecioHora) &&
-        (!this.filtroPrecioDia || a.precioDia <= this.filtroPrecioDia);
-    });
+  mostrarImagenGrande(imagen: string): void {
+    this.imagenEnAmpliacion = imagen;
+  }
+
+  ocultarImagenGrande(): void {
+    this.imagenEnAmpliacion = null;
   }
 }

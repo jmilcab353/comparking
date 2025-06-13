@@ -1,37 +1,44 @@
-<div class="container my-4 text-white">
+<div class="container my-5 text-white">
     <h4 class="mb-3">Aparcamientos disponibles</h4>
 
     <!-- Filtros -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <input type="text" class="form-control bg-dark text-white" placeholder="Filtrar por localidad"
-                [(ngModel)]="filtroLocalidad">
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control bg-dark text-white" placeholder="Filtrar por provincia"
-                [(ngModel)]="filtroProvincia">
-        </div>
-        <div class="col-md-3">
-            <input type="number" class="form-control bg-dark text-white" placeholder="Precio hora máx (€)"
-                [(ngModel)]="filtroPrecioHora">
-        </div>
-        <div class="col-md-3">
-            <input type="number" class="form-control bg-dark text-white" placeholder="Precio día máx (€)"
-                [(ngModel)]="filtroPrecioDia">
+    <div class="comparking-box mb-4">
+        <h5 class="mb-3">Buscar aparcamientos</h5>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Localidad</label>
+                <input type="text" class="form-control bg-dark text-white" [(ngModel)]="filtroLocalidad"
+                    placeholder="Ej. Madrid">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Provincia</label>
+                <input type="text" class="form-control bg-dark text-white" [(ngModel)]="filtroProvincia"
+                    placeholder="Ej. Jaén">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Precio hora máx. (€)</label>
+                <input type="number" class="form-control bg-dark text-white" [(ngModel)]="filtroPrecioHora">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Precio día máx. (€)</label>
+                <input type="number" class="form-control bg-dark text-white" [(ngModel)]="filtroPrecioDia">
+            </div>
         </div>
     </div>
 
-    <div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
+    <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
 
-    <div *ngFor="let a of aparcamientosFiltrados" class="mb-4 p-3 border rounded aparcamiento-listado position-relative"
+    <!-- Tarjetas -->
+    <div *ngFor="let a of aparcamientosPaginados" class="mb-4 p-3 border rounded aparcamiento-listado position-relative"
         [class.aparcamiento-bloqueado]="estaReservado(a.id)">
-
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="me-3">
                 <h5 class="mb-1">{{ a.direccion }}</h5>
                 <p class="mb-1">{{ a.localidad }} ({{ a.provincia }})</p>
                 <p class="mb-1"><strong>Precio/hora:</strong> {{ a.precioHora }} €</p>
                 <p class="mb-1"><strong>Precio/día:</strong> {{ a.precioDia }} €</p>
+                <p class="mb-1"><strong>Dimensiones:</strong> {{ a.ancho }} cm x {{ a.largo }} cm (ancho x largo)</p>
+                <p class="mb-1" *ngIf="a.detalles"><strong>Detalles:</strong> {{ a.detalles }}</p>
                 <p class="mb-1"><strong>Techado:</strong> {{ a.techado ? 'Sí' : 'No' }}</p>
                 <button *ngIf="logueado && !estaReservado(a.id)" class="btn btn-success btn-sm"
                     (click)="abrirModalReserva(a)">
@@ -39,13 +46,34 @@
                 </button>
             </div>
 
-            <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
-                style="max-width: 180px; max-height: 120px;" class="rounded border">
+            <div class="img-preview-container" (mouseenter)="mostrarImagenGrande(a.imagen)"
+                (mouseleave)="ocultarImagenGrande()">
+                <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
+                    class="rounded border img-hover-enlarge">
+            </div>
+            <!-- <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
+                style="max-width: 180px; max-height: 120px;" class="rounded border zoom-hover"> -->
         </div>
 
         <div *ngIf="estaReservado(a.id)" class="overlay-bloqueado">
             <i class="bi bi-lock-fill fs-2"></i>
         </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="d-flex justify-content-center mt-4" *ngIf="totalPages > 0">
+        <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <a class="page-link" (click)="cambiarPagina(currentPage - 1)">‹</a>
+            </li>
+            <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+                [class.active]="currentPage === i + 1">
+                <a class="page-link" (click)="cambiarPagina(i + 1)">{{ i + 1 }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <a class="page-link" (click)="cambiarPagina(currentPage + 1)">›</a>
+            </li>
+        </ul>
     </div>
 
     <!-- Modal reserva -->
@@ -70,11 +98,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <label>Tipo de pago</label>
-                    <select class="form-select" [(ngModel)]="reservaForm.tipoPago" name="tipoPago" required>
+                    <label>Tipo de reserva</label>
+                    <select class="form-select" [(ngModel)]="reservaForm.tipoPago" name="tipoPago"
+                        (change)="calcularPrecio()" required>
                         <option value="" disabled selected>Selecciona</option>
-                        <option value="bizum">Bizum</option>
-                        <option value="transferencia">Transferencia</option>
+                        <option value="horario">Por horas</option>
+                        <option value="diario">Por días</option>
                     </select>
                 </div>
 
@@ -82,9 +111,11 @@
                     <label class="form-label fw-bold">Total a pagar: {{ precioCalculado }} €</label>
                 </div>
 
-                <div *ngIf="errorReserva" class="alert alert-danger text-center">
+                <!-- <div *ngIf="errorReserva" class="alert alert-danger text-center">
                     {{ errorReserva }}
-                </div>
+                </div> -->
+                <div *ngIf="errorReserva" class="alert alert-danger text-center" [innerHTML]="errorReserva"></div>
+
 
                 <div *ngIf="reservaRealizada" class="alert alert-success text-center">
                     Reserva realizada con éxito. ¡Un momento!
@@ -100,3 +131,9 @@
         </div>
     </div>
 </div>
+
+<img *ngIf="imagenEnAmpliacion"
+     [src]="'http://localhost:9000' + imagenEnAmpliacion"
+     alt="Vista ampliada"
+     class="img-floating-preview"
+     (click)="imagenEnAmpliacion = null">

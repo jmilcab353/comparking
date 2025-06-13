@@ -57,7 +57,8 @@ public class AparcamientoConverter {
                 aparcamiento.getLatitud(),
                 aparcamiento.getLongitud(),
                 aparcamiento.getPrecioMs(),
-                aparcamiento.getUser().getUsername()
+                aparcamiento.getUser().getUsername(),
+                aparcamiento.getUser().getIdUser()
         );
     }
 

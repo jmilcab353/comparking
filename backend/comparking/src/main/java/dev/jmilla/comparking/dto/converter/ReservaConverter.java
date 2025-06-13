@@ -43,6 +43,7 @@ public class ReservaConverter {
         return new ReservaDTOResponse(
                 reserva.getIdReserva(),
                 reserva.getUsuario().getUsername(),
+                reserva.getAparcamiento().getIdAparcamiento(),
                 reserva.getAparcamiento().getDireccion(),
                 reserva.getFechaInicio(),
                 reserva.getFechaFin(),

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public record ReservaDTOResponse(
         Long id,
         String usuario,
+        Long aparcamientoId,
         String direccionAparcamiento,
         LocalDateTime fechaInicio,
         LocalDateTime fechaFin,

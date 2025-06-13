@@ -44,7 +44,7 @@ public class Reserva {
 
     @NotBlank
     @Size(max = 45)
-    private String tipoPago; // bizum, transferencia
+    private String tipoPago; // horario, diario
 
     @PositiveOrZero
     private Float precioTotal;
