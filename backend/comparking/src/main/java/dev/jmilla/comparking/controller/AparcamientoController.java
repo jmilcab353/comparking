@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -75,4 +77,17 @@ public class AparcamientoController {
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(lista);
     }
+
+    @PostMapping("/upload")
+    @Operation(summary = "Subir imagen de aparcamiento")
+    public ResponseEntity<String> uploadFotoAparcamiento(@RequestParam("file") MultipartFile file) {
+        try {
+            // Reutilizamos el mismo sistema de almacenamiento que para usuarios
+            String url = service.guardarImagenAparcamiento(file); // este método lo crearás en el service
+            return ResponseEntity.ok(url);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Error al guardar la imagen");
+        }
+    }
+
 }

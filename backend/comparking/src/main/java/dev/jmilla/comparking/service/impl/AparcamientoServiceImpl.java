@@ -10,7 +10,12 @@ import dev.jmilla.comparking.repository.UserRepository;
 import dev.jmilla.comparking.service.AparcamientoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +63,10 @@ public class AparcamientoServiceImpl implements AparcamientoService {
 
     @Override
     public AparcamientoDTOResponse save(AparcamientoDTO dto) {
+        User user = userRepository.findById(dto.userId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Aparcamiento aparcamiento = converter.toEntity(dto);
+        aparcamiento.setUser(user);
         return converter.toDtoResponse(repository.save(aparcamiento));
     }
 
@@ -87,6 +95,17 @@ public class AparcamientoServiceImpl implements AparcamientoService {
         return repository.findByUser(user).stream()
                 .map(converter::toDtoResponse)
                 .toList();
+    }
+
+    @Override
+    public String guardarImagenAparcamiento(MultipartFile file) throws IOException {
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path path = Paths.get("uploads/aparcamientos/" + fileName);
+
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+
+        return "/uploads/aparcamientos/" + fileName;
     }
 
 }
