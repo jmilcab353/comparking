@@ -12,6 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.util.List;
 
 @RestController
@@ -82,11 +90,44 @@ public class AparcamientoController {
     @Operation(summary = "Subir imagen de aparcamiento")
     public ResponseEntity<String> uploadFotoAparcamiento(@RequestParam("file") MultipartFile file) {
         try {
-            // Reutilizamos el mismo sistema de almacenamiento que para usuarios
-            String url = service.guardarImagenAparcamiento(file); // este método lo crearás en el service
+            String url = service.guardarImagenAparcamiento(file);
             return ResponseEntity.ok(url);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Error al guardar la imagen");
+        }
+    }
+
+    @GetMapping("/{id}/imagen")
+    public ResponseEntity<byte[]> obtenerImagenAparcamiento(@PathVariable Long id) {
+        try {
+            AparcamientoDTOResponse aparcamiento = service.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Aparcamiento no encontrado"));
+
+            String relativePath = aparcamiento.imagen();
+
+            if (relativePath == null || relativePath.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Elimina la primera barra si existe
+            if (relativePath.startsWith("/")) {
+                relativePath = relativePath.substring(1);
+            }
+
+            Path imagenPath = Paths.get(relativePath);
+            Resource imagenResource = new UrlResource(imagenPath.toUri());
+
+            if (!imagenResource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] imagenBytes = Files.readAllBytes(imagenPath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(imagenBytes);
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 

@@ -16,7 +16,6 @@ public record AparcamientoDTOResponse(
         Double latitud,
         Double longitud,
         Float precioMs,
-        //String propietarioUsername
         String usuario,
         Long userId
 ) {}
