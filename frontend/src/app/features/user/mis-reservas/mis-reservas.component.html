@@ -1,1 +1,138 @@
-<p>mis-reservas works!</p>
+<div class="container mt-5 mb-3">
+    <!-- Saldo -->
+    <div class="mb-4 text-center">
+        <h3><i class="bi bi-cash-coin"></i>
+            Saldo actual: {{ saldo | currency:'EUR':'symbol' }}
+        </h3>
+    </div>
+
+    <div class="row">
+        <!-- ACTUAL -->
+        <div class="col-md-6 mb-4">
+            <div class="comparking-box">
+                <h4 class="text-center mb-3">Reservas Activas</h4>
+                <div *ngIf="reservasActivas.length > 0; else noActivas">
+                    <div *ngFor="let reserva of getReservasActivasPaginadas()" class="mb-4 pb-2 border-bottom d-flex">
+                        <div class="flex-grow-1 pe-3">
+                            <h6 class="text-info">{{ reserva.direccionAparcamiento }}</h6>
+                            <p class="mb-1">Localidad, provincia: {{ reserva.localidad }}, {{ reserva.provincia }}</p>
+                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'short' }}</p>
+                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'short' }}</p>
+                            <p class="mb-1">Tipo de pago: {{ reserva.tipoPago }}</p>
+                            <p class="mb-1">Precio: {{ reserva.precioTotal | currency:'EUR' }}</p>
+                            <p class="text-success" *ngIf="reserva.pagoConfirmado">✔ Pago confirmado</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="me-2">Código de acceso:</span>
+                                <strong *ngIf="mostrarCodigos[reserva.id]">{{ reserva.codigoAcceso }}</strong>
+                                <strong *ngIf="!mostrarCodigos[reserva.id]">••••••</strong>
+                                <button (click)="toggleCodigo(reserva.id)" class="btn btn-sm btn-secondary ms-2">
+                                    {{ mostrarCodigos[reserva.id] ? 'Ocultar' : 'Ver' }}
+                                </button>
+                            </div>
+                            <p class="text-warning"><i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Necesitarás este
+                                código para acceder a tu aparcamiento.
+                            </p>
+                        </div>
+                        <div class="image-container">
+                            <ng-container *ngIf="reserva.mostrarImagen; else iconoAlternativo">
+                                <img [src]="reserva.foto" class="img-fluid rounded"
+                                    style="max-width: 150px; max-height: 100px;" (error)="ocultarImagen(reserva)" />
+                            </ng-container>
+
+                            <ng-template #iconoAlternativo>
+                                <div class="d-flex align-items-center justify-content-center text-secondary"
+                                    style="width: 150px; height: 100px; border: 1px dashed var(--color-border-highlight); border-radius: 0.5rem;">
+                                    <i class="bi bi-image fs-3"></i>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="text-center mt-2">
+                        <button class="btn btn-sm btn-primary me-2" [disabled]="paginaActiva === 1"
+                            (click)="cambiarPaginaActiva(-1)">
+                            Anterior
+                        </button>
+                        <button class="btn btn-sm btn-primary"
+                            [disabled]="paginaActiva * itemsPorPagina >= reservasActivas.length"
+                            (click)="cambiarPaginaActiva(1)">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+                <ng-template #noActivas>
+                    <p class="text-center">No tienes reservas activas.</p>
+                </ng-template>
+            </div>
+        </div>
+
+        <!-- HISTORIAL -->
+        <div class="col-md-6 mb-4">
+            <div class="comparking-box">
+                <h4 class="text-center mb-3">Historial</h4>
+                <div *ngIf="reservasPasadas.length > 0; else noPasadas">
+                    <div *ngFor="let reserva of getReservasPasadasPaginadas()"
+                        class="mb-4 pb-2 border-bottom d-flex position-relative">
+                        <div class="flex-grow-1 pe-3">
+                            <h6 class="text-info">{{ reserva.direccionAparcamiento }}</h6>
+                            <p class="mb-1">{{ reserva.localidad }}, {{ reserva.provincia }}</p>
+                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'short' }}</p>
+                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'short' }}</p>
+                            <p class="mb-1">Tipo de pago: {{ reserva.tipoPago }}</p>
+                            <p class="mb-1">Precio: {{ reserva.precioTotal | currency:'EUR' }}</p>
+                            <p class="text-success">Pagado el {{ reserva.fechaPago | date:'shortDate' }}</p>
+                        </div>
+
+                        <div class="image-container">
+                            <ng-container *ngIf="reserva.mostrarImagen; else iconoAlternativo">
+                                <img [src]="reserva.foto" class="img-fluid rounded"
+                                    style="max-width: 150px; max-height: 100px;" (error)="ocultarImagen(reserva)" />
+                            </ng-container>
+
+                            <ng-template #iconoAlternativo>
+                                <div class="d-flex align-items-center justify-content-center text-secondary"
+                                    style="width: 150px; height: 100px; border: 1px dashed var(--color-border-highlight); border-radius: 0.5rem;">
+                                    <i class="bi bi-image fs-3"></i>
+                                </div>
+                            </ng-template>
+                        </div>
+
+                        <!-- Botón eliminar en esquina inferior derecha -->
+                        <button class="btn btn-sm btn-danger position-absolute" style="bottom: 0.5rem; right: 0.5rem;"
+                            (click)="confirmarEliminar(reserva)">
+                            🗑 Borrar
+                        </button>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="text-center mt-2">
+                        <button class="btn btn-sm btn-primary me-2" [disabled]="paginaPasada === 1"
+                            (click)="cambiarPaginaPasada(-1)">
+                            Anterior
+                        </button>
+                        <button class="btn btn-sm btn-primary"
+                            [disabled]="paginaPasada * itemsPorPagina >= reservasPasadas.length"
+                            (click)="cambiarPaginaPasada(1)">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+                <ng-template #noPasadas>
+                    <p class="text-muted text-center">No tienes reservas pasadas.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de eliminación -->
+    <div class="modal-overlay" *ngIf="mostrarModalEliminar">
+        <div class="modal-box text-center">
+            <h5 class="mb-3">¿Estás seguro de que quieres eliminar esta reserva?</h5>
+            <p class="mb-4">{{ reservaAEliminar?.direccionAparcamiento }}</p>
+            <button class="btn btn-danger me-2" (click)="eliminarReserva()">Sí, eliminar</button>
+            <button class="btn btn-secondary" (click)="cancelarEliminar()">Cancelar</button>
+        </div>
+    </div>
+</div>

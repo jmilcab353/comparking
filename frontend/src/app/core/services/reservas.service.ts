@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ReservasService {
   private apiUrl = 'http://localhost:9000/api/reservas';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const loginData = sessionStorage.getItem('LOGIN');
@@ -36,4 +36,11 @@ export class ReservasService {
   getReservas(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() });
   }
+
+  deleteReserva(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
 }

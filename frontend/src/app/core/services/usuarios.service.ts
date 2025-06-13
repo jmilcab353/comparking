@@ -71,4 +71,8 @@ export class UsuariosService {
     });
   }
 
+  getPerfilUsuario(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + '/me', { headers: this.getHeaders() });
+  }
+
 }
