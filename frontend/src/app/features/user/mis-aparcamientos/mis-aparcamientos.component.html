@@ -1,4 +1,15 @@
 <div class="container my-5 text-white">
+    <div aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb custom-breadcrumb px-3 py-2 rounded">
+            <li class="breadcrumb-item">
+                <a routerLink="/aparcamientos" class="text-white text-decoration-none">Aparcamientos</a>
+            </li>
+            <li class="breadcrumb-item active text-info" aria-current="page">
+                {{ tituloBreadcrumb }}
+            </li>
+        </ol>
+    </div>
+
     <h4 class="mb-4 text-center">Mis aparcamientos publicados</h4>
 
     <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
@@ -10,7 +21,7 @@
         </div>
 
         <div *ngFor="let a of aparcamientos"
-            class="mb-4 p-3 border rounded d-flex justify-content-between align-items-center aparcamiento-listado">
+            class="mb-4 p-3 border rounded d-flex justify-content-between align-items-center aparcamiento-listado hover-effect">
             <!-- Detalles -->
             <div class="flex-grow-1 me-3">
                 <h5 class="mb-1">{{ a.direccion }}</h5>

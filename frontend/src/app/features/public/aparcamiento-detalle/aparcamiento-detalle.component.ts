@@ -46,6 +46,8 @@ export class AparcamientoDetalleComponent implements OnInit {
 
   minFecha: string = '';
 
+  tituloBreadcrumb = 'Aparcamientos disponibles';
+
   constructor(
     private aparcamientosService: AparcamientosService,
     private reservasService: ReservasService,

@@ -4,11 +4,12 @@ import { ReservasService } from '../../../core/services/reservas.service';
 import { UsuariosService } from '../../../core/services/usuarios.service';
 import { AparcamientosService } from '../../../core/services/aparcamientos.service';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-mis-reservas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './mis-reservas.component.html',
   styleUrl: './mis-reservas.component.css'
 })
@@ -25,6 +26,8 @@ export class MisReservasComponent implements OnInit {
   paginaActiva = 1;
   paginaPasada = 1;
   itemsPorPagina = 3;
+
+  tituloBreadcrumb = 'Mis reservas';
 
   constructor(
     private reservasService: ReservasService,

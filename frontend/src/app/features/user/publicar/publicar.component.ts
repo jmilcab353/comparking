@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AparcamientosService } from '../../../core/services/aparcamientos.service';
 import { UsuariosService } from '../../../core/services/usuarios.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { timeInterval } from 'rxjs';
 
 @Component({
   selector: 'app-publicar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './publicar.component.html'
 })
 export class PublicarComponent {
@@ -30,6 +30,8 @@ export class PublicarComponent {
   mensaje = '';
   userId!: number;
   errorMessage = '';
+
+  tituloBreadcrumb = 'Publicar aparcamiento';
 
   constructor(
     private aparcamientosService: AparcamientosService,

@@ -1,4 +1,15 @@
 <div class="container mt-5 mb-3">
+    <div aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb custom-breadcrumb px-3 py-2 rounded">
+            <li class="breadcrumb-item">
+                <a routerLink="/aparcamientos" class="text-white text-decoration-none">Aparcamientos</a>
+            </li>
+            <li class="breadcrumb-item active text-info" aria-current="page">
+                {{ tituloBreadcrumb }}
+            </li>
+        </ol>
+    </div>
+
     <!-- Saldo -->
     <div class="mb-4 text-center">
         <h3><i class="bi bi-cash-coin"></i>

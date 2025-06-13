@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AparcamientosService } from '../../../core/services/aparcamientos.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-mis-aparcamientos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './mis-aparcamientos.component.html',
   styleUrls: ['./mis-aparcamientos.component.css']
 })
@@ -15,6 +16,8 @@ export class MisAparcamientosComponent implements OnInit {
   mensaje = '';
   mostrarModalEliminar = false;
   aparcamientoAEliminar: any = null;
+
+  tituloBreadcrumb = 'Mis aparcamientos';
 
   constructor(private aparcamientosService: AparcamientosService) {
     const login = JSON.parse(sessionStorage.getItem('LOGIN')!);
