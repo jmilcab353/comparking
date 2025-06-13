@@ -42,11 +42,11 @@ export const routes: Routes = [
 
   // Públicos (IMPORTANTE: las rutas específicas antes de :id)
   { path: 'aparcamientos', component: AparcamientosComponent, pathMatch: 'full' },
-  { path: 'aparcamientos/ver', component: AparcamientosComponent, pathMatch: 'full' },
+  { path: 'aparcamientos/ver', component: AparcamientoDetalleComponent, pathMatch: 'full' },
   { path: 'aparcamientos/publicar', component: PublicarComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/publicados', component: MisAparcamientosComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/reservados', component: MisReservasComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'aparcamientos/:id', component: AparcamientoDetalleComponent, pathMatch: 'full' },  // ⚠️ ¡SIEMPRE AL FINAL!
+  // { path: 'aparcamientos/:id', component: AparcamientoDetalleComponent, pathMatch: 'full' },
 
   // Usuario
   { path: 'usuario/perfil', component: PerfilComponent, canActivate: [userGuard], pathMatch: 'full' },

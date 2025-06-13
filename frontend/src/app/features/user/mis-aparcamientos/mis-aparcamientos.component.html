@@ -4,7 +4,8 @@
     <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
 
     <ng-container *ngIf="aparcamientos">
-        <div *ngIf="aparcamientos.length === 0" class="text-center text-muted">
+        <div *ngIf="aparcamientos.length === 0" class="text-center text-warning">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
             No tienes aparcamientos publicados aún.
         </div>
 

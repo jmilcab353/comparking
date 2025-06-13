@@ -1,1 +1,102 @@
-<p>aparcamiento-detalle works!</p>
+<div class="container my-4 text-white">
+    <h4 class="mb-3">Aparcamientos disponibles</h4>
+
+    <!-- Filtros -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" class="form-control bg-dark text-white" placeholder="Filtrar por localidad"
+                [(ngModel)]="filtroLocalidad">
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control bg-dark text-white" placeholder="Filtrar por provincia"
+                [(ngModel)]="filtroProvincia">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control bg-dark text-white" placeholder="Precio hora máx (€)"
+                [(ngModel)]="filtroPrecioHora">
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control bg-dark text-white" placeholder="Precio día máx (€)"
+                [(ngModel)]="filtroPrecioDia">
+        </div>
+    </div>
+
+    <div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
+
+    <div *ngFor="let a of aparcamientosFiltrados" class="mb-4 p-3 border rounded aparcamiento-listado position-relative"
+        [class.aparcamiento-bloqueado]="estaReservado(a.id)">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-1">{{ a.direccion }}</h5>
+                <p class="mb-1">{{ a.localidad }} ({{ a.provincia }})</p>
+                <p class="mb-1"><strong>Precio/hora:</strong> {{ a.precioHora }} €</p>
+                <p class="mb-1"><strong>Precio/día:</strong> {{ a.precioDia }} €</p>
+                <p class="mb-1"><strong>Techado:</strong> {{ a.techado ? 'Sí' : 'No' }}</p>
+                <button *ngIf="logueado && !estaReservado(a.id)" class="btn btn-success btn-sm"
+                    (click)="abrirModalReserva(a)">
+                    Reservar
+                </button>
+            </div>
+
+            <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
+                style="max-width: 180px; max-height: 120px;" class="rounded border">
+        </div>
+
+        <div *ngIf="estaReservado(a.id)" class="overlay-bloqueado">
+            <i class="bi bi-lock-fill fs-2"></i>
+        </div>
+    </div>
+
+    <!-- Modal reserva -->
+    <div *ngIf="mostrarModalReserva" class="modal-overlay">
+        <div class="modal-box">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Reservar aparcamiento</h5>
+                <button class="btn-close btn-close-white" (click)="cerrarModalReserva()"></button>
+            </div>
+
+            <form (ngSubmit)="confirmarReserva()">
+                <div class="mb-3">
+                    <label>Fecha y hora de inicio</label>
+                    <input type="datetime-local" class="form-control" [(ngModel)]="reservaForm.fechaInicio"
+                        name="fechaInicio" (change)="calcularPrecio()" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Fecha y hora de fin</label>
+                    <input type="datetime-local" class="form-control" [(ngModel)]="reservaForm.fechaFin" name="fechaFin"
+                        (change)="calcularPrecio()" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Tipo de pago</label>
+                    <select class="form-select" [(ngModel)]="reservaForm.tipoPago" name="tipoPago" required>
+                        <option value="" disabled selected>Selecciona</option>
+                        <option value="bizum">Bizum</option>
+                        <option value="transferencia">Transferencia</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Total a pagar: {{ precioCalculado }} €</label>
+                </div>
+
+                <div *ngIf="errorReserva" class="alert alert-danger text-center">
+                    {{ errorReserva }}
+                </div>
+
+                <div *ngIf="reservaRealizada" class="alert alert-success text-center">
+                    Reserva realizada con éxito. ¡Un momento!
+                </div>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-primary me-2" [disabled]="reservaRealizada">Confirmar
+                        reserva</button>
+                    <button type="button" class="btn btn-secondary" (click)="cerrarModalReserva()"
+                        [disabled]="reservaRealizada">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
