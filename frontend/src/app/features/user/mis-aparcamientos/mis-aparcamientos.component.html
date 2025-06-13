@@ -1,1 +1,50 @@
-<p>mis-aparcamientos works!</p>
+<div class="container my-5 text-white">
+    <h4 class="mb-4 text-center">Mis aparcamientos publicados</h4>
+
+    <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
+
+    <ng-container *ngIf="aparcamientos">
+        <div *ngIf="aparcamientos.length === 0" class="text-center text-muted">
+            No tienes aparcamientos publicados aún.
+        </div>
+
+        <div *ngFor="let a of aparcamientos"
+            class="mb-4 p-3 border rounded d-flex justify-content-between align-items-center aparcamiento-listado">
+            <!-- Detalles -->
+            <div class="flex-grow-1 me-3">
+                <h5 class="mb-1">{{ a.direccion }}</h5>
+                <p class="mb-1"><strong>Localidad:</strong> {{ a.localidad }} | <strong>Provincia:</strong> {{
+                    a.provincia }}</p>
+                <p class="mb-1"><strong>Dimensiones:</strong> {{ a.ancho }} cm x {{ a.largo }} cm</p>
+                <p class="mb-1"><strong>Precio/hora:</strong> {{ a.precioHora }} € | <strong>Día:</strong> {{
+                    a.precioDia }} €</p>
+                <p class="mb-1"><strong>Techado:</strong> {{ a.techado ? 'Sí' : 'No' }}</p>
+                <button class="btn btn-sm btn-outline-danger mt-2" (click)="abrirModalEliminar(a)">
+                    <i class="bi bi-trash-fill me-1"></i> Eliminar
+                </button>
+            </div>
+
+            <!-- Imagen -->
+            <div class="text-end">
+                <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
+                    class="img-fluid rounded border" style="max-width: 220px; max-height: 160px;">
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Modal de eliminación -->
+    <div *ngIf="mostrarModalEliminar" class="modal-overlay">
+        <div class="modal-box">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">¿Eliminar aparcamiento?</h5>
+                <button class="btn-close btn-close-white" (click)="cerrarModalEliminar()"></button>
+            </div>
+            <p>¿Estás seguro de que deseas eliminar este aparcamiento?</p>
+            <p class="fw-bold">{{ aparcamientoAEliminar?.direccion }}</p>
+            <div class="d-flex justify-content-end mt-4">
+                <button class="btn btn-danger me-2" (click)="confirmarEliminar()">Sí, eliminar</button>
+                <button class="btn btn-secondary" (click)="cerrarModalEliminar()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

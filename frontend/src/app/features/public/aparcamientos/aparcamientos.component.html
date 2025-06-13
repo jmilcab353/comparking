@@ -1,1 +1,68 @@
-<p>aparcamientos works!</p>
+<div class="container text-white mt-4">
+    <div class="row row-cols-1 row-cols-md-2 mt-3 g-4 text-center">
+
+        <!-- Ver aparcamientos -->
+        <div class="col">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <i class="bi bi-search fs-1 mb-2 text-info"></i>
+                    <h4>Ver aparcamientos</h4>
+                    <p>Puedes consultar todos los aparcamientos disponibles</p>
+                </div>
+                <a class="btn btn-info w-100 mt-auto" routerLink="/aparcamientos/ver">Entrar</a>
+            </div>
+        </div>
+
+        <!-- Publicar aparcamiento -->
+        <div class="col">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
+                [class.aparcamiento-bloqueado]="!logueado">
+                <div>
+                    <i class="bi bi-plus-square fs-1 mb-2 text-success"></i>
+                    <h4>Publicar aparcamiento</h4>
+                    <p>Comparte tu plaza y gana dinero</p>
+                </div>
+                <a class="btn btn-success w-100 mt-auto" [class.disabled]="!logueado"
+                    [routerLink]="logueado ? '/aparcamientos/publicar' : null">Publicar</a>
+                <div *ngIf="!logueado" class="overlay-bloqueado">
+                    <i class="bi bi-lock-fill fs-2"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mis aparcamientos -->
+        <div class="col">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
+                [class.aparcamiento-bloqueado]="!logueado">
+                <div>
+                    <i class="bi bi-house-door fs-1 mb-2 text-warning"></i>
+                    <h4>Mis aparcamientos</h4>
+                    <p>Gestiona tus aparcamientos publicados</p>
+                </div>
+                <a class="btn btn-warning w-100 mt-auto text-dark" [class.disabled]="!logueado"
+                    [routerLink]="logueado ? '/aparcamientos/publicados' : null">Ver mis plazas</a>
+                <div *ngIf="!logueado" class="overlay-bloqueado">
+                    <i class="bi bi-lock-fill fs-2"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mis reservas -->
+        <div class="col">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
+                [class.aparcamiento-bloqueado]="!logueado">
+                <div>
+                    <i class="bi bi-clock-history fs-1 mb-2 text-light"></i>
+                    <h4>Mis reservas</h4>
+                    <p>Historial de plazas reservadas</p>
+                </div>
+                <a class="btn btn-light text-dark w-100 mt-auto" [class.disabled]="!logueado"
+                    [routerLink]="logueado ? '/aparcamientos/reservados' : null">Ver reservas</a>
+                <div *ngIf="!logueado" class="overlay-bloqueado">
+                    <i class="bi bi-lock-fill fs-2"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

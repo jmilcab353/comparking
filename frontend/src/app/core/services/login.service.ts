@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +53,11 @@ export class LoginService {
     }).pipe(
       map((data: any) => {
         if (data != null && data.token != "") {
-          this.user = { nombre: data.username };
+          // this.user = { nombre: data.username };
+          this.user = {
+            id: data.id,
+            nombre: data.username
+          };
           this.perfil = data.role;
           this.logged = true;
           this.token = data.token;

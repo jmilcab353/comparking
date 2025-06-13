@@ -13,7 +13,7 @@
 
     --comparking-warning: #ffd000;
 
-    --color-bg-dark: #121212;
+    --color-bg-card: #1e1e1e;
     --color-white: #ffffff;
     --color-light: #f8f9fa;
     --color-muted: #6c757d;
@@ -23,6 +23,9 @@
     --color-danger: #dc3545;
     --color-success: #198754;
     --color-secondary: #6c757d;
+
+    --color-border-highlight: #2c86c2;
+    --color-lock-icon: #cccccc;
 }
 
 /* ----------------------------------------------------
@@ -136,7 +139,7 @@ h3 {
 }
 
 /* ----------------------------------------------------
-   COMPONENTE REUTILIZABLES
+   COMPONENTES REUTILIZABLES
 ---------------------------------------------------- */
 .comparking-box {
     background-color: var(--color-box-bg);
@@ -158,6 +161,7 @@ h3 {
     color: var(--comparking-warning)
 }
 
+/* MODALES */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -173,14 +177,13 @@ h3 {
     color: var(--color-light);
     border-radius: 1rem;
     padding: 2rem;
-    width: 90vw;             /* Máximo 90% del ancho del viewport */
-    max-width: 700px;        /* Pero no más de 700px en pantallas grandes */
-    max-height: 90vh;        /* También restringimos la altura */
-    overflow-y: auto;        /* Scroll si se desborda */
+    width: 90vw;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 0 12px var(--color-shadow);
 }
 
-/* Para móviles */
 @media (max-width: 576px) {
     .modal-box {
         width: 95vw;
@@ -190,4 +193,29 @@ h3 {
 
 .scrollable-modal {
     max-height: 100%;
+}
+
+/* LISTADOS Y TARJETAS */
+.aparcamiento-card {
+    background-color: var(--color-bg-card);
+    border-color: var(--color-border-highlight);
+    color: var(--color-light);
+}
+
+.aparcamiento-listado {
+    background-color: var(--color-bg-card);
+    border-color: var(--color-border-highlight);
+}
+
+.aparcamiento-bloqueado {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+.overlay-bloqueado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--color-lock-icon);
 }
