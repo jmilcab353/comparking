@@ -32,6 +32,7 @@ export class AparcamientoDetalleComponent implements OnInit {
   precioCalculado: number = 0;
   usuario: any = null;
   errorReserva = '';
+  errorFechaInicio: string = '';
 
   filtroLocalidad: string = '';
   filtroProvincia: string = '';
@@ -42,6 +43,8 @@ export class AparcamientoDetalleComponent implements OnInit {
   itemsPerPage: number = 10;
 
   imagenEnAmpliacion: string | null = null;
+
+  minFecha: string = '';
 
   constructor(
     private aparcamientosService: AparcamientosService,
@@ -56,6 +59,9 @@ export class AparcamientoDetalleComponent implements OnInit {
       const parsed = JSON.parse(sessionStorage.getItem('LOGIN')!);
       this.userId = parsed.user.id;
     }
+
+    const ahora = new Date();
+    this.minFecha = ahora.toISOString().slice(0, 16);
 
     this.aparcamientosService.getAparcamientos().subscribe({
       next: data => this.aparcamientos = data,
@@ -83,7 +89,7 @@ export class AparcamientoDetalleComponent implements OnInit {
   get aparcamientosFiltrados(): any[] {
     return this.aparcamientos.filter(a => {
       return !this.estaReservado(a.id) &&
-        a.userId !== this.usuario?.id && // ✅ evitar los propios
+        a.userId !== this.usuario?.id && // Evitamos los propios del usuairo logueado
         (!this.filtroLocalidad || a.localidad.toLowerCase().includes(this.filtroLocalidad.toLowerCase())) &&
         (!this.filtroProvincia || a.provincia.toLowerCase().includes(this.filtroProvincia.toLowerCase())) &&
         (!this.filtroPrecioHora || a.precioHora <= this.filtroPrecioHora) &&
@@ -128,6 +134,7 @@ export class AparcamientoDetalleComponent implements OnInit {
       fechaFin: '',
       tipoPago: ''
     };
+    this.errorFechaInicio = '';
   }
 
   calcularPrecio(): void {
@@ -204,4 +211,19 @@ export class AparcamientoDetalleComponent implements OnInit {
   ocultarImagenGrande(): void {
     this.imagenEnAmpliacion = null;
   }
+
+  validarFechaInicio(): void {
+    const inicio = new Date(this.reservaForm.fechaInicio);
+    const ahora = new Date();
+
+    if (inicio < ahora) {
+      this.errorFechaInicio = 'No puedes seleccionar una fecha anterior a la actual.';
+      this.reservaForm.fechaInicio = '';
+    } else {
+      this.errorFechaInicio = '';
+    }
+
+    this.calcularPrecio(); // recalcula si ya estaba la fecha de fin
+  }
+
 }

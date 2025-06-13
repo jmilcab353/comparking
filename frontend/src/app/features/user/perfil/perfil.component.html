@@ -2,7 +2,8 @@
   <div class="comparking-box">
     <h2 class="mb-4 text-center">Mi Perfil</h2>
 
-    <p class="text-center small comparking-warning"><i class="bi bi-exclamation-triangle me-2"></i>Recuerda editar y revisar tus datos
+    <p class="text-center small comparking-warning"><i class="bi bi-exclamation-triangle me-2"></i>Recuerda editar y
+      revisar tus datos
       (especialmente si es la primera vez que inicias sesión)</p>
 
     <div *ngIf="mensaje" class="alert alert-info text-center">{{ mensaje }}</div>
@@ -30,6 +31,18 @@
           <p><strong>Email:</strong> {{ usuario.username }}</p>
           <p><strong>Saldo:</strong> {{ usuario.saldo | number:'1.2-2' }} €</p>
           <p><strong>Depósito:</strong> {{ usuario.deposito | number:'1.2-2' }} €</p>
+          <hr>
+          <p class="text-warning small"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
+            Advertencia:
+          </p>
+          <p class="small">
+            La primera vez que
+            realices una reserva, se cargará automáticamente en tu cuenta bancaria el importe de 50€ por el depósito.
+          </p>
+          <p class="small">
+            Si en algún momento cierras tu cuenta y no tienes sanciones, este importe te
+            será devuelto.
+          </p>
 
           <div class="mt-4">
             <button class="btn btn-outline-primary m-2" (click)="editMode = true">Editar</button>
@@ -115,7 +128,8 @@
     class="position-fixed top-0 start-0 w-100 h-100 bg-opacity-dark d-flex justify-content-center align-items-center">
     <div class="comparking-box w-50">
       <h4 class="mb-3">Añadir fondos</h4>
-
+      <p class="text-warning"><i class="bi bi-exclamation-triangle-fill me-2"></i>El importe se cargará automáticamente
+        en tu cuenta bancaria.</p>
       <div class="mb-3">
         <label for="ingreso" class="form-label">Cantidad a añadir (€)</label>
         <input type="number" id="ingreso" [(ngModel)]="ingreso" class="form-control bg-dark text-white border-secondary"

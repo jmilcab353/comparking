@@ -51,8 +51,6 @@
                 <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
                     class="rounded border img-hover-enlarge">
             </div>
-            <!-- <img *ngIf="a.imagen" [src]="'http://localhost:9000' + a.imagen" alt="Imagen"
-                style="max-width: 180px; max-height: 120px;" class="rounded border zoom-hover"> -->
         </div>
 
         <div *ngIf="estaReservado(a.id)" class="overlay-bloqueado">
@@ -87,14 +85,16 @@
             <form (ngSubmit)="confirmarReserva()">
                 <div class="mb-3">
                     <label>Fecha y hora de inicio</label>
+                    <!-- <input type="datetime-local" class="form-control" [(ngModel)]="reservaForm.fechaInicio"
+                        name="fechaInicio" (change)="calcularPrecio()" required> -->
                     <input type="datetime-local" class="form-control" [(ngModel)]="reservaForm.fechaInicio"
-                        name="fechaInicio" (change)="calcularPrecio()" required>
+                        name="fechaInicio" [min]="minFecha" (change)="calcularPrecio()" required />
                 </div>
 
                 <div class="mb-3">
                     <label>Fecha y hora de fin</label>
                     <input type="datetime-local" class="form-control" [(ngModel)]="reservaForm.fechaFin" name="fechaFin"
-                        (change)="calcularPrecio()" required>
+                        [min]="minFecha" (change)="calcularPrecio()" required>
                 </div>
 
                 <div class="mb-3">
@@ -111,11 +111,11 @@
                     <label class="form-label fw-bold">Total a pagar: {{ precioCalculado }} €</label>
                 </div>
 
-                <!-- <div *ngIf="errorReserva" class="alert alert-danger text-center">
-                    {{ errorReserva }}
-                </div> -->
                 <div *ngIf="errorReserva" class="alert alert-danger text-center" [innerHTML]="errorReserva"></div>
-
+                
+                <div *ngIf="errorFechaInicio" class="alert alert-danger text-center">
+                    {{ errorFechaInicio }}
+                </div>
 
                 <div *ngIf="reservaRealizada" class="alert alert-success text-center">
                     Reserva realizada con éxito. ¡Un momento!
@@ -132,8 +132,5 @@
     </div>
 </div>
 
-<img *ngIf="imagenEnAmpliacion"
-     [src]="'http://localhost:9000' + imagenEnAmpliacion"
-     alt="Vista ampliada"
-     class="img-floating-preview"
-     (click)="imagenEnAmpliacion = null">
+<img *ngIf="imagenEnAmpliacion" [src]="'http://localhost:9000' + imagenEnAmpliacion" alt="Vista ampliada"
+    class="img-floating-preview" (click)="imagenEnAmpliacion = null">
