@@ -52,7 +52,8 @@ public class ReservaConverter {
                 reserva.getPrecioTotal(),
                 reserva.getPagoConfirmado(),
                 reserva.getFechaPago(),
-                reserva.getTipoPagoMs()
+                reserva.getTipoPagoMs(),
+                reserva.getUsuario().getIdUser()
         );
     }
 

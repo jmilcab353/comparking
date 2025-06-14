@@ -14,6 +14,7 @@ public record ReservaDTOResponse(
         Float precioTotal,
         Boolean pagoConfirmado,
         LocalDateTime fechaPago,
-        String tipoPagoMs
+        String tipoPagoMs,
+        Long usuarioId
 ) {}
 
