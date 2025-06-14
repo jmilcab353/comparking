@@ -1,1 +1,66 @@
-<p>comunidad works!</p>
+<div class="container text-white mt-4">
+
+    <div class="row row-cols-1 row-cols-md-2 mt-3 g-4 text-center">
+
+        <!-- Mensajes -->
+        <div class="col hover-effect">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <i class="bi bi-chat-dots fs-1 mb-2 text-info"></i>
+                    <h4>Enviar mensaje</h4>
+                    <p>Escribe un mensaje privado a otro usuario</p>
+                </div>
+                <a class="btn btn-info w-100 mt-auto" routerLink="/usuario/comunidad/mensajes">Entrar</a>
+            </div>
+        </div>
+
+        <!-- Bandeja de entrada -->
+        <div class="col hover-effect">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <i class="bi bi-inbox fs-1 mb-2 text-warning"></i>
+                    <h4>Mensajes recibidos</h4>
+                    <p>Consulta los mensajes que te han enviado otros usuarios</p>
+                </div>
+                <a class="btn btn-warning text-dark w-100 mt-auto"
+                    routerLink="/usuario/comunidad/mensajes-recibidos">Ver bandeja</a>
+            </div>
+        </div>
+
+        <!-- Denuncia -->
+        <div class="col hover-effect">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <i class="bi bi-exclamation-triangle fs-1 mb-2 text-danger"></i>
+                    <h4>Enviar denuncia</h4>
+                    <p>¿Has tenido un problema? Contacta con moderadores o admins</p>
+                </div>
+                <a class="btn btn-danger w-100 mt-auto" routerLink="/usuario/comunidad/denuncia">Reportar</a>
+            </div>
+        </div>
+
+        <!-- Política de privacidad -->
+        <div class="col hover-effect">
+            <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <i class="bi bi-shield-lock fs-1 mb-2 text-light"></i>
+                    <h4>Política de privacidad</h4>
+                    <p>Consulta cómo gestionamos tus datos personales</p>
+                </div>
+                <a class="btn btn-light text-dark w-100 mt-auto" routerLink="/usuario/comunidad/politica-privacidad">Ver
+                    política</a>
+            </div>
+        </div>
+
+        <!-- Reseña -->
+        <div *ngIf="logueado" class="container text-center mt-5 mb-4">
+            <p class="text-white fs-5">
+                ¿Te está gustando Comparking?
+                <br>
+                <a routerLink="/usuario/resena-app" class="text-info text-decoration-underline">
+                    Haz click aquí para dejar una reseña.
+                </a>
+            </p>
+        </div>
+    </div>
+</div>

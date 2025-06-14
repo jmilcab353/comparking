@@ -46,9 +46,9 @@ export const routes: Routes = [
   { path: 'aparcamientos/publicar', component: PublicarComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/publicados', component: MisAparcamientosComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/reservados', component: MisReservasComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/resena-app', component: ResenaAppComponent, canActivate: [userGuard], pathMatch: 'full' },
 
   // Usuario y comunidad
+  { path: 'usuario/resena-app', component: ResenaAppComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'usuario/perfil', component: PerfilComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'usuario/comunidad', component: ComunidadComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'usuario/comunidad/mensajes', component: MensajesComponent, canActivate: [userGuard], pathMatch: 'full' },

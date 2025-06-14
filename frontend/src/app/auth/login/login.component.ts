@@ -16,6 +16,7 @@ export class LoginComponent {
   user: string = '';
   pass: string = '';
   errorMessage: string = '';
+  mostrarPass: boolean = false;
 
   constructor(private servicioLogin: LoginService, private route: Router) { }
 

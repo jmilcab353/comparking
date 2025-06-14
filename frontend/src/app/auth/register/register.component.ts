@@ -1,9 +1,9 @@
-import {CommonModule} from '@angular/common';
-import {Component} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {Router, RouterModule} from '@angular/router';
-import {RegisterService} from '../../core/services/register.service';
-import {LoginService} from '../../core/services/login.service';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { RegisterService } from '../../core/services/register.service';
+import { LoginService } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +18,8 @@ export class RegisterComponent {
   pass2: string = '';
   errorMessage: string = '';
   successMessage: string = '';
+  mostrarPass1: boolean = false;
+  mostrarPass2: boolean = false;
 
   constructor(
     private registerService: RegisterService,
