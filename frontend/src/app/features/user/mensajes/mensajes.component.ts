@@ -44,9 +44,13 @@ export class MensajesComponent {
           .map(u => ({
             id: Number(u.idUser),
             nombre: u.nombre,
-            email: u.username
+            email: u.username,
+            role: u.role
           }))
-          .filter(u => u.id !== this.idUsuarioLogueado);
+          .filter(u =>
+            u.id !== this.idUsuarioLogueado &&
+            u.role === 'ROLE_USER'
+          );
 
         this.usuariosFiltrados = [...this.usuarios];
       },
