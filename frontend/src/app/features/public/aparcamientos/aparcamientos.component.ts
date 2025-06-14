@@ -11,8 +11,18 @@ import { RouterModule } from '@angular/router';
 })
 export class AparcamientosComponent implements OnInit {
   logueado = false;
+  perfil: string = '';
 
   ngOnInit(): void {
-    this.logueado = sessionStorage.getItem('LOGIN') !== null;
+    const session = sessionStorage.getItem('LOGIN');
+    if (session) {
+      const datos = JSON.parse(session);
+      this.logueado = datos.logged;
+      this.perfil = datos.perfil;
+    }
+  }
+
+  get bloqueado(): boolean {
+    return !this.logueado || this.perfil === 'ROLE_ADMIN' || this.perfil === 'ROLE_MOD';
   }
 }

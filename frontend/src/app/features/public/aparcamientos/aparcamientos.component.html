@@ -7,7 +7,7 @@
                 <div>
                     <i class="bi bi-search fs-1 mb-2 text-info"></i>
                     <h4>Ver y reservar aparcamientos</h4>
-                    <p>Consulta todos los aparcamientos disponibles y reserva</p> 
+                    <p>Consulta todos los aparcamientos disponibles y reserva</p>
                 </div>
                 <a class="btn btn-info w-100 mt-auto" routerLink="/aparcamientos/ver">Entrar</a>
             </div>
@@ -16,15 +16,15 @@
         <!-- Publicar aparcamiento -->
         <div class="col hover-effect">
             <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
-                [class.aparcamiento-bloqueado]="!logueado">
+                [class.aparcamiento-bloqueado]="bloqueado">
                 <div>
                     <i class="bi bi-plus-square fs-1 mb-2 text-success"></i>
                     <h4>Publicar aparcamiento</h4>
                     <p>Comparte tu plaza y gana dinero</p>
                 </div>
-                <a class="btn btn-success w-100 mt-auto" [class.disabled]="!logueado"
-                    [routerLink]="logueado ? '/aparcamientos/publicar' : null">Publicar</a>
-                <div *ngIf="!logueado" class="overlay-bloqueado">
+                <a class="btn btn-success w-100 mt-auto" [class.disabled]="bloqueado"
+                    [routerLink]="!bloqueado ? '/aparcamientos/publicar' : null">Publicar</a>
+                <div *ngIf="bloqueado" class="overlay-bloqueado">
                     <i class="bi bi-lock-fill fs-2"></i>
                 </div>
             </div>
@@ -33,15 +33,15 @@
         <!-- Mis aparcamientos -->
         <div class="col hover-effect">
             <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
-                [class.aparcamiento-bloqueado]="!logueado">
+                [class.aparcamiento-bloqueado]="bloqueado">
                 <div>
                     <i class="bi bi-house-door fs-1 mb-2 text-warning"></i>
                     <h4>Mis aparcamientos</h4>
                     <p>Gestiona tus aparcamientos publicados</p>
                 </div>
-                <a class="btn btn-warning w-100 mt-auto text-dark" [class.disabled]="!logueado"
-                    [routerLink]="logueado ? '/aparcamientos/publicados' : null">Ver mis plazas</a>
-                <div *ngIf="!logueado" class="overlay-bloqueado">
+                <a class="btn btn-warning w-100 mt-auto text-dark" [class.disabled]="bloqueado"
+                    [routerLink]="!bloqueado ? '/aparcamientos/publicados' : null">Ver mis plazas</a>
+                <div *ngIf="bloqueado" class="overlay-bloqueado">
                     <i class="bi bi-lock-fill fs-2"></i>
                 </div>
             </div>
@@ -50,22 +50,22 @@
         <!-- Mis reservas -->
         <div class="col hover-effect">
             <div class="p-4 border rounded shadow aparcamiento-card h-100 d-flex flex-column justify-content-between position-relative"
-                [class.aparcamiento-bloqueado]="!logueado">
+                [class.aparcamiento-bloqueado]="bloqueado">
                 <div>
                     <i class="bi bi-clock-history fs-1 mb-2 text-light"></i>
                     <h4>Mis reservas</h4>
                     <p>Historial de plazas reservadas</p>
                 </div>
-                <a class="btn btn-light text-dark w-100 mt-auto" [class.disabled]="!logueado"
-                    [routerLink]="logueado ? '/aparcamientos/reservados' : null">Ver reservas</a>
-                <div *ngIf="!logueado" class="overlay-bloqueado">
+                <a class="btn btn-light text-dark w-100 mt-auto" [class.disabled]="bloqueado"
+                    [routerLink]="!bloqueado ? '/aparcamientos/reservados' : null">Ver reservas</a>
+                <div *ngIf="bloqueado" class="overlay-bloqueado">
                     <i class="bi bi-lock-fill fs-2"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Enlace a resenya si el usuario está logueado -->
-        <div *ngIf="logueado" class="container text-center mt-5 mb-4">
+        <!-- Enlace a resena solo si el usuario es ROLE_USER -->
+        <div *ngIf="logueado && perfil === 'ROLE_USER'" class="container text-center mt-5 mb-4">
             <p class="text-white fs-5">
                 ¿Te está gustando Comparking?
                 <br>

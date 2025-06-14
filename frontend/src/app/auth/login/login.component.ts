@@ -27,7 +27,7 @@ export class LoginComponent {
           if (v.perfil === "ROLE_ADMIN") {
             this.route.navigate(['/admin/usuarios']);
           } else if (v.perfil === "ROLE_MOD") {
-            this.route.navigate(['/mod/anuncios']);
+            this.route.navigate(['/mod/denuncias']);
           } else {
             this.route.navigate(['/usuario/perfil']);
           }

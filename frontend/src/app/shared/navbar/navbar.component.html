@@ -39,7 +39,8 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLogged() && getPerfil() == 'ROLE_USER'">
-                    <a class="nav-link" routerLink="/usuario/comunidad" title="Mensajes privados, política de privacidad y más">
+                    <a class="nav-link" routerLink="/usuario/comunidad"
+                        title="Mensajes privados, política de privacidad y más">
                         <i class="bi bi-chat-dots-fill me-2"></i>Comunidad
                     </a>
                 </li>
@@ -48,24 +49,33 @@
                         <i class="bi bi-person-circle me-2"></i>Perfil
                     </a>
                 </li>
+                <li class="nav-item mod-nav-item" *ngIf="isLogged() && getPerfil() == 'ROLE_MOD'">
+                    <a class="nav-link" routerLink="/mod/denuncias" title="Gestión de denuncias">
+                        <i class="bi bi-search me-2"></i>Moderación
+                    </a>
+                </li>
+                <li class="nav-item admin-nav-item" *ngIf="isLogged() && getPerfil() == 'ROLE_ADMIN'">
+                    <a class="nav-link" routerLink="/admin/usuarios" title="Gestión de usuarios">
+                        <i class="bi bi-shield-lock-fill me-2"></i>Admin
+                    </a>
+                </li>
             </ul>
 
             <!-- MOD -->
-            <ul class="navbar-nav" *ngIf="isLogged() && getPerfil() == 'ROLE_MOD'">
+            <!-- <ul class="navbar-nav" *ngIf="isLogged() && getPerfil() == 'ROLE_MOD'">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="modDropdown" role="button"
                         data-bs-toggle="dropdown" title="Opciones de moderación">
                         <i class="bi bi-search me-2"></i>Moderación
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="/mod/anuncios">Anuncios sospechosos</a></li>
                         <li><a class="dropdown-item" routerLink="/mod/denuncias">Denuncias</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ul> -->
 
             <!-- ADMIN -->
-            <ul class="navbar-nav" *ngIf="isLogged() && getPerfil() == 'ROLE_ADMIN'">
+            <!-- <ul class="navbar-nav" *ngIf="isLogged() && getPerfil() == 'ROLE_ADMIN'">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
                         data-bs-toggle="dropdown" title="Opciones administrativas">
@@ -73,11 +83,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="/admin/usuarios">Usuarios</a></li>
-                        <li><a class="dropdown-item" routerLink="/admin/anuncios">Anuncios</a></li>
-                        <li><a class="dropdown-item" routerLink="/admin/correcciones">Correcciones</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </nav>
