@@ -1,1 +1,63 @@
-<p>mensajes-recibidos works!</p>
+<div class="container text-white mt-4 mb-5">
+
+    <!-- Breadcrumb -->
+    <div aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb custom-breadcrumb px-3 py-2 rounded">
+            <li class="breadcrumb-item">
+                <a routerLink="/usuario/comunidad" class="text-white text-decoration-none">Comunidad</a>
+            </li>
+            <li class="breadcrumb-item active text-info" aria-current="page">
+                Mensajes recibidos
+            </li>
+        </ol>
+    </div>
+
+    <div class="comparking-box">
+        <h4 class="mb-4 text-center">Mensajes recibidos</h4>
+
+        <!-- Paginación superior -->
+        <div *ngIf="totalPaginas > 1" class="mb-3 d-flex justify-content-center">
+            <ul class="pagination pagination-sm bg-dark p-2 rounded">
+                <li class="page-item" [class.disabled]="paginaActual === 1">
+                    <a class="page-link bg-dark text-light border-0" (click)="cambiarPagina(paginaActual - 1)">«</a>
+                </li>
+                <li class="page-item" *ngFor="let p of paginas" [class.active]="p === paginaActual">
+                    <a class="page-link bg-dark text-light border-0" (click)="cambiarPagina(p)">{{ p }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
+                    <a class="page-link bg-dark text-light border-0" (click)="cambiarPagina(paginaActual + 1)">»</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Lista de mensajes -->
+        <div *ngIf="mensajesPaginados.length > 0; else sinMensajes">
+            <div *ngFor="let m of mensajesPaginados"
+                class="bg-dark p-3 mb-3 rounded border hover-effect position-relative">
+                <p class="mb-1"><strong>De:</strong> {{ m.emisor }}</p>
+                <p class="mb-1"><strong>Fecha:</strong> {{ m.fechaEnvio | date:'dd/MM/yyyy' }}</p>
+                <p class="mb-2"><strong>Contenido:</strong></p>
+                <p class="bg-secondary text-light p-2 rounded">{{ m.contenido }}</p>
+                <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2"
+                    (click)="confirmarEliminacion(m.id)">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+
+        <ng-template #sinMensajes>
+            <p class="text-center text-warning">No tienes mensajes recibidos.</p>
+        </ng-template>
+    </div>
+
+    <!-- Modal personalizado -->
+    <div class="modal-overlay" *ngIf="mensajeAEliminar !== null">
+        <div class="modal-box text-center">
+            <h5 class="mb-3">¿Eliminar este mensaje?</h5>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-danger px-4" (click)="eliminarConfirmado()">Sí</button>
+                <button class="btn btn-secondary px-4" (click)="cancelarEliminacion()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
