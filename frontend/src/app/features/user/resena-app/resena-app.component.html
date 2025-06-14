@@ -1,1 +1,32 @@
-<p>resena-app works!</p>
+<div class="container mt-5 mb-5 text-white">
+    <div class="comparking-box mx-auto" style="max-width: 600px;">
+        <h2 class="text-center mb-4">Deja tu opinión sobre Comparking</h2>
+
+        <div *ngIf="mensaje" class="alert alert-success text-center">{{ mensaje }}</div>
+        <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+        <div class="mb-3 text-center">
+            <label class="form-label d-block mb-2">Puntuación:</label>
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+                <i class="bi" [ngClass]="star <= puntuacion ? 'bi-star-fill text-warning' : 'bi-star text-secondary'"
+                    style="font-size: 1.8rem; cursor: pointer;" (click)="seleccionarPuntuacion(star)"></i>
+            </ng-container>
+        </div>
+
+        <div class="mb-3">
+            <label for="comentario" class="form-label">Comentario:</label>
+            <textarea [(ngModel)]="comentario" id="comentario" rows="5"
+                class="form-control bg-dark text-white border-secondary"
+                [class.border-danger]="comentario.length > 300"></textarea>
+            <div class="text-end small mt-1" [ngClass]="{ 'text-danger': comentario.length > 300 }">
+                {{ comentario.length }}/300 caracteres
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary px-4" (click)="enviarResena()" [disabled]="enviando">
+                Enviar reseña
+            </button>
+        </div>
+    </div>
+</div>
