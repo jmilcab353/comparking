@@ -20,7 +20,7 @@ export class LandingComponent implements OnInit {
     this.reviewsService.getTodasResenas().subscribe({
       next: (data) => {
         this.resenas = data;
-        this.resenasAleatorias = this.obtenerAleatorias(this.resenas, 5);
+        this.resenasAleatorias = this.obtenerAleatorias(this.resenas, 6);
       },
       error: () => console.error('Error al cargar reseñas.')
     });

@@ -18,12 +18,12 @@ import { PerfilComponent } from './features/user/perfil/perfil.component';
 import { PublicarComponent } from './features/user/publicar/publicar.component';
 import { MisAparcamientosComponent } from './features/user/mis-aparcamientos/mis-aparcamientos.component';
 import { MisReservasComponent } from './features/user/mis-reservas/mis-reservas.component';
-import { ReservarComponent } from './features/user/reservar/reservar.component';
 import { MensajesComponent } from './features/user/mensajes/mensajes.component';
-import { TruequesComponent } from './features/user/trueques/trueques.component';
-import { CarteraComponent } from './features/user/cartera/cartera.component';
+import { MensajesRecibidosComponent } from './features/user/mensajes-recibidos/mensajes-recibidos.component';
 import { DenunciaComponent } from './features/user/denuncia/denuncia.component';
 import { ResenaAppComponent } from './features/user/resena-app/resena-app.component';
+import { ComunidadComponent } from './features/user/comunidad/comunidad.component';
+import { PoliticaPrivacidadComponent } from './features/user/politica-privacidad/politica-privacidad.component';
 
 // Moderador (ROLE_MOD)
 import { ModAnunciosComponent } from './features/mod/mod-anuncios/mod-anuncios.component';
@@ -40,22 +40,21 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent, pathMatch: 'full' },
   { path: 'bye', component: ByeComponent, pathMatch: 'full' },
 
-  // Públicos (IMPORTANTE: las rutas específicas antes de :id)
+  // Aparcamientos
   { path: 'aparcamientos', component: AparcamientosComponent, pathMatch: 'full' },
   { path: 'aparcamientos/ver', component: AparcamientoDetalleComponent, pathMatch: 'full' },
   { path: 'aparcamientos/publicar', component: PublicarComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/publicados', component: MisAparcamientosComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'aparcamientos/reservados', component: MisReservasComponent, canActivate: [userGuard], pathMatch: 'full' },
-  // { path: 'aparcamientos/:id', component: AparcamientoDetalleComponent, pathMatch: 'full' },
-
-  // Usuario
-  { path: 'usuario/perfil', component: PerfilComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/reservar/:id', component: ReservarComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/mensajes', component: MensajesComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/trueques', component: TruequesComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/cartera', component: CarteraComponent, canActivate: [userGuard], pathMatch: 'full' },
-  { path: 'usuario/denuncia/:idReserva', component: DenunciaComponent, canActivate: [userGuard], pathMatch: 'full' },
   { path: 'usuario/resena-app', component: ResenaAppComponent, canActivate: [userGuard], pathMatch: 'full' },
+
+  // Usuario y comunidad
+  { path: 'usuario/perfil', component: PerfilComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/comunidad', component: ComunidadComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/comunidad/mensajes', component: MensajesComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/comunidad/mensajes-recibidos', component: MensajesRecibidosComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/comunidad/politica-privacidad', component: PoliticaPrivacidadComponent, canActivate: [userGuard], pathMatch: 'full' },
+  { path: 'usuario/comunidad/denuncia', component: DenunciaComponent, canActivate: [userGuard], pathMatch: 'full' },
 
   // Moderador
   { path: 'mod/anuncios', component: ModAnunciosComponent, canActivate: [modGuard], pathMatch: 'full' },
