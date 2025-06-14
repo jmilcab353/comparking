@@ -1,1 +1,79 @@
-<p>mensajes works!</p>
+<div class="container text-white mt-4 mb-5">
+
+  <!-- Breadcrumb -->
+  <div aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb custom-breadcrumb px-3 py-2 rounded">
+      <li class="breadcrumb-item">
+        <a routerLink="/usuario/comunidad" class="text-white text-decoration-none">Comunidad</a>
+      </li>
+      <li class="breadcrumb-item active text-info" aria-current="page">
+        Enviar mensaje
+      </li>
+    </ol>
+  </div>
+
+  <div class="comparking-box">
+    <h4 class="mb-4 text-center">Enviar mensaje a otro usuario</h4>
+
+    <!-- Buscador -->
+    <div class="mb-3">
+      <label for="buscar" class="form-label">Buscar usuario (nombre o email):</label>
+      <input type="text" class="form-control bg-dark text-light" id="buscar" [(ngModel)]="filtro"
+        placeholder="Buscar..." (input)="filtrarUsuarios()">
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="table-responsive mb-3" *ngIf="usuariosFiltrados.length > 0"
+      style="max-height: 360px; overflow-y: auto;">
+      <table class="table table-dark table-hover table-bordered align-middle mb-0">
+        <thead class="text-info sticky-top bg-dark">
+          <tr>
+            <th scope="col" style="width: 40px;">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuariosFiltrados; index as i" style="cursor: pointer;" (click)="seleccionarReceptor(u)">
+            <td>{{ i + 1 }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Usuario seleccionado -->
+    <div class="mb-3" *ngIf="receptorSeleccionado">
+      <label class="form-label">Usuario seleccionado:</label>
+      <div class="p-2 bg-dark rounded border border-info text-light">
+        <strong>{{ receptorSeleccionado.nombre }}</strong><br>
+        {{ receptorSeleccionado.email }}
+      </div>
+    </div>
+
+
+    <!-- Campo mensaje -->
+    <div class="mb-4">
+      <label for="contenido" class="form-label">Mensaje:</label>
+      <textarea class="form-control bg-dark text-light" id="contenido" [(ngModel)]="contenido" rows="4" maxlength="1000"
+        placeholder="Escribe tu mensaje aquí..."></textarea>
+    </div>
+
+    <!-- Botón -->
+    <div class="d-grid">
+      <button class="btn btn-info" [disabled]="enviando" (click)="enviarMensaje()">
+        <span *ngIf="enviando"><i class="bi bi-hourglass-split me-2"></i>Enviando...</span>
+        <span *ngIf="!enviando">Enviar mensaje</span>
+      </button>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="alert alert-success text-center p-2 mt-3" *ngIf="mensajeEnviado">
+      Mensaje enviado correctamente.
+    </div>
+    <div class="alert alert-danger text-center p-2 mt-3" *ngIf="error">
+      Faltan campos o ha ocurrido un error.
+    </div>
+  </div>
+</div>

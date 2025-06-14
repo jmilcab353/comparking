@@ -285,8 +285,8 @@ h3 {
 
 /* BREADCRUMB */
 .breadcrumb.custom-breadcrumb {
-  background-color: transparent; /* Elimina la caja */
-  box-shadow: none;              /* Elimina sombra */
+  background-color: transparent;
+  box-shadow: none;
   font-size: 1.1rem;
   padding-left: 0;
   --bs-breadcrumb-divider: ">";
