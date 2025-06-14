@@ -27,8 +27,8 @@
                         <div class="flex-grow-1 pe-3">
                             <h6 class="text-info">{{ reserva.direccionAparcamiento }}</h6>
                             <p class="mb-1">Localidad, provincia: {{ reserva.localidad }}, {{ reserva.provincia }}</p>
-                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'short' }}</p>
-                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'short' }}</p>
+                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</p>
+                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'dd/MM/yyyy HH:mm' }}</p>
                             <p class="mb-1">Tipo de pago: {{ reserva.tipoPago }}</p>
                             <p class="mb-1">Precio: {{ reserva.precioTotal | currency:'EUR' }}</p>
                             <p class="text-success" *ngIf="reserva.pagoConfirmado">✔ Pago confirmado</p>
@@ -89,11 +89,11 @@
                         <div class="flex-grow-1 pe-3">
                             <h6 class="text-info">{{ reserva.direccionAparcamiento }}</h6>
                             <p class="mb-1">{{ reserva.localidad }}, {{ reserva.provincia }}</p>
-                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'short' }}</p>
-                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'short' }}</p>
+                            <p class="mb-1">Inicio: {{ reserva.fechaInicio | date:'dd/MM/yyyy HH:mm' }}</p>
+                            <p class="mb-1">Fin: {{ reserva.fechaFin | date:'dd/MM/yyyy HH:mm' }}</p>
                             <p class="mb-1">Tipo de pago: {{ reserva.tipoPago }}</p>
                             <p class="mb-1">Precio: {{ reserva.precioTotal | currency:'EUR' }}</p>
-                            <p class="text-success">Pagado el {{ reserva.fechaPago | date:'shortDate' }}</p>
+                            <p class="text-success">Pagado el {{ reserva.fechaPago | date:'dd/MM/yyyy' }}</p>
                         </div>
 
                         <div class="image-container">

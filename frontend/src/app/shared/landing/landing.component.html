@@ -7,7 +7,7 @@
                 <div
                     class="comparking-box text-center welcome-message flex-fill d-flex flex-column justify-content-center">
                     <h1 class="display-5 fw-bold mb-3">¡Bienvenidos a Comparking!</h1>
-                    <p class="lead mb-4">Alquila, comparte y encuentra aparcamientos fácilmente en tu ciudad.</p>
+                    <p class="lead mb-4">Aparca mejor. Comparte más. Gana dinero sin esfuerzo.</p>
 
                     <div class="row justify-content-center mb-4">
                         <div class="col-6">
@@ -61,6 +61,37 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Reseñas dinámicas -->
+    <div class="container mt-5" *ngIf="resenasAleatorias.length > 0">
+        <h3 class="text-center mb-4">Lo que opinan nuestros usuarios</h3>
+        <div class="row">
+            <div *ngFor="let resena of resenasAleatorias" class="col-md-4 mb-4 hover-effect">
+                <div class="comparking-box h-100">
+                    <h5 class="text-info">{{ resena.username }}</h5>
+                    <p class="mb-1">
+                        <ng-container *ngFor="let star of [].constructor(resena.puntuacion)">
+                            <i class="bi bi-star-fill text-warning"></i>
+                        </ng-container>
+                    </p>
+                    <p class="fst-italic">"{{ resena.comentario }}"</p>
+                    <p class="text-end small">{{ resena.fecha | date:'dd/MM/yyyy' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mapa -->
+    <div class="container my-5">
+        <h3 class="text-center mb-4">¿Necesitas acudir a nuestras oficinas?</h3>
+        <p class="text-center">Puedes visitarnos en el IES Las Fuentezuelas (Jaén). Estamos aquí para ayudarte:</p>
+        <div class="text-center">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.374241263878!2d-3.807181023562388!3d37.78126841178502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6dd71774e45867%3A0x99df1e0032930534!2sIES%20Fuentezuelas!5e0!3m2!1ses!2ses!4v1749895481851!5m2!1ses!2ses"
+                width="100%" height="400" style="border:0; border-radius: 1rem;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
 </div>

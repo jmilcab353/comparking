@@ -279,15 +279,16 @@ h3 {
 
 .hover-effect:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 15px var(--color-shadow);
+  /* box-shadow: 0 0 15px var(--color-shadow); */
   z-index: 2;
 }
 
 /* BREADCRUMB */
 .breadcrumb.custom-breadcrumb {
-  background-color: var(--color-bg-card);
-  box-shadow: 0 2px 4px var(--color-shadow);
+  background-color: transparent; /* Elimina la caja */
+  box-shadow: none;              /* Elimina sombra */
   font-size: 1.1rem;
+  padding-left: 0;
   --bs-breadcrumb-divider: ">";
 }
 
@@ -299,15 +300,15 @@ h3 {
 .breadcrumb.custom-breadcrumb .breadcrumb-item a {
   color: var(--comparking-color);
   font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb.custom-breadcrumb .breadcrumb-item a:hover {
+  color: var(--white-text-hover) !important;
+  text-decoration: underline;
 }
 
 .breadcrumb.custom-breadcrumb .breadcrumb-item.active {
   color: #fff;
   font-weight: 600;
-}
-
-.nav-link.active {
-  font-weight: bold;
-  color: var(--comparking-color) !important;
-  border-bottom: 2px solid var(--comparking-color);
 }
