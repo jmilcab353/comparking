@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {UsuariosService} from '../../../core/services/usuarios.service';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { UsuariosService } from '../../../core/services/usuarios.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-perfil',
@@ -16,9 +16,13 @@ export class PerfilComponent implements OnInit {
   editMode = false;
   showPasswordModal = false;
   showSaldoModal = false;
+  showRetiradaModal = false;
+
   nuevaPassword = '';
   repetirPassword = '';
   ingreso = 0;
+  retirada = 0;
+
   mensaje = '';
   errorMessage = '';
   errorPassword = '';
@@ -119,9 +123,16 @@ export class PerfilComponent implements OnInit {
     this.showSaldoModal = true;
   }
 
+  abrirModalRetirada(): void {
+    this.retirada = 0;
+    this.errorSaldo = '';
+    this.showRetiradaModal = true;
+  }
+
   cerrarModal(): void {
     this.showPasswordModal = false;
     this.showSaldoModal = false;
+    this.showRetiradaModal = false;
     this.errorPassword = '';
     this.errorSaldo = '';
   }
@@ -185,6 +196,39 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  retirarSaldo(): void {
+    this.errorSaldo = '';
+
+    if (this.retirada <= 0) {
+      this.errorSaldo = 'La cantidad debe ser mayor a 0.';
+      return;
+    }
+
+    if (this.retirada > this.usuario.saldo) {
+      this.errorSaldo = 'No tienes suficiente saldo disponible.';
+      return;
+    }
+
+    const nuevoSaldo = this.usuario.saldo - this.retirada;
+
+    const datosActualizados = {
+      ...this.usuario,
+      saldo: nuevoSaldo
+    };
+
+    this.usuariosService.updateUsuario(this.usuario.id, datosActualizados).subscribe({
+      next: updated => {
+        this.usuario = updated;
+        this.backup = { ...updated };
+        this.showRetiradaModal = false;
+        this.mensaje = `Se han retirado ${this.retirada.toFixed(2)} €. Serán ingresados en tu cuenta bancaria.`;
+      },
+      error: () => {
+        this.errorSaldo = 'No se pudo realizar la retirada.';
+      }
+    });
+  }
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -202,5 +246,4 @@ export class PerfilComponent implements OnInit {
       });
     }
   }
-
 }

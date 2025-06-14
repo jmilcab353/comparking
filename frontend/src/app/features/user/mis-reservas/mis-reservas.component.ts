@@ -48,34 +48,45 @@ export class MisReservasComponent implements OnInit {
   }
 
   cargarReservas(): void {
-    this.reservasService.getReservas().subscribe({
-      next: (reservas) => {
-        const ahora = new Date();
+    this.usuariosService.getPerfilUsuario().subscribe({
+      next: (usuario) => {
+        const miId = usuario.id;
 
-        reservas.forEach(reserva => {
-          reserva.codigoAcceso = this.generarCodigo();
-          reserva.foto = `http://localhost:9000/api/aparcamientos/${reserva.aparcamientoId}/imagen`;
-          reserva.mostrarImagen = true;
-        });
+        this.reservasService.getReservas().subscribe({
+          next: (reservas) => {
+            const ahora = new Date();
 
-        this.aparcamientosService.getAparcamientos().subscribe(aparcamientos => {
-          reservas.forEach(reserva => {
-            const aparcamiento = aparcamientos.find(a => a.id === reserva.aparcamientoId);
-            if (aparcamiento) {
-              reserva.localidad = aparcamiento.localidad;
-              reserva.provincia = aparcamiento.provincia;
-            }
-          });
+            // Filtrar solo reservas del usuario logueado
+            const misReservas = reservas.filter(r => r.usuarioId === miId);
 
-          this.reservasActivas = reservas.filter(r =>
-            new Date(r.fechaFin) > ahora && r.pagoConfirmado === true
-          );
-          this.reservasPasadas = reservas.filter(r =>
-            new Date(r.fechaFin) <= ahora && r.pagoConfirmado === true
-          );
+            misReservas.forEach(reserva => {
+              reserva.codigoAcceso = this.generarCodigo();
+              reserva.foto = `http://localhost:9000/api/aparcamientos/${reserva.aparcamientoId}/imagen`;
+              reserva.mostrarImagen = true;
+            });
+
+            this.aparcamientosService.getAparcamientos().subscribe(aparcamientos => {
+              misReservas.forEach(reserva => {
+                const aparcamiento = aparcamientos.find(a => a.id === reserva.aparcamientoId);
+                if (aparcamiento) {
+                  reserva.localidad = aparcamiento.localidad;
+                  reserva.provincia = aparcamiento.provincia;
+                }
+              });
+
+              this.reservasActivas = misReservas.filter(r =>
+                new Date(r.fechaFin) > ahora && r.pagoConfirmado === true
+              );
+
+              this.reservasPasadas = misReservas.filter(r =>
+                new Date(r.fechaFin) <= ahora && r.pagoConfirmado === true
+              );
+            });
+          },
+          error: (err) => console.error('Error al cargar reservas:', err)
         });
       },
-      error: (err) => console.error('Error al cargar reservas:', err)
+      error: (err) => console.error('Error al obtener perfil:', err)
     });
   }
 

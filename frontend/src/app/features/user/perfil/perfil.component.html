@@ -48,6 +48,7 @@
             <button class="btn btn-outline-primary m-2" (click)="editMode = true">Editar</button>
             <button class="btn btn-outline-warning m-2" (click)="abrirModalContrasena()">Cambiar contraseña</button>
             <button class="btn btn-outline-success m-2" (click)="abrirModalSaldo()">Añadir fondos</button>
+            <button class="btn btn-outline-danger m-2" (click)="abrirModalRetirada()">Retirar fondos</button>
           </div>
         </ng-container>
 
@@ -141,6 +142,31 @@
       </div>
 
       <button class="btn btn-success me-2" (click)="agregarSaldo()">Añadir</button>
+      <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Modal Retirar Saldo -->
+  <div *ngIf="showRetiradaModal"
+    class="position-fixed top-0 start-0 w-100 h-100 bg-opacity-dark d-flex justify-content-center align-items-center">
+    <div class="comparking-box w-50">
+      <h4 class="mb-3">Retirar fondos</h4>
+      <p class="text-info">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        El importe retirado será ingresado en tu cuenta bancaria en un plazo de 3 a 5 días laborables.
+        Revisa tu IBAN.
+      </p>
+      <div class="mb-3">
+        <label for="retirada" class="form-label">Cantidad a retirar (€)</label>
+        <input type="number" id="retirada" [(ngModel)]="retirada"
+          class="form-control bg-dark text-white border-secondary" [class.border-danger]="errorSaldo">
+      </div>
+
+      <div *ngIf="errorSaldo" class="alert alert-danger text-center">
+        {{ errorSaldo }}
+      </div>
+
+      <button class="btn btn-danger me-2" (click)="retirarSaldo()">Retirar</button>
       <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
     </div>
   </div>

@@ -64,5 +64,15 @@
             </div>
         </div>
 
+        <!-- Enlace a resenya si el usuario está logueado -->
+        <div *ngIf="logueado" class="container text-center mt-5 mb-4">
+            <p class="text-white fs-5">
+                ¿Te está gustando Comparking?
+                <br>
+                <a routerLink="/usuario/resena-app" class="text-info text-decoration-underline">
+                    Haz click aquí para dejar una reseña.
+                </a>
+            </p>
+        </div>
     </div>
 </div>
