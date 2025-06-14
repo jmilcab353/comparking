@@ -21,8 +21,9 @@ export class MensajesComponent {
   contenido: string = '';
 
   mensajeEnviado: boolean = false;
-  error: boolean = false;
+  errorMsg: string | null = null;
   enviando: boolean = false;
+  mostrarModal: boolean = false;
 
   idUsuarioLogueado: number = 0;
 
@@ -43,7 +44,7 @@ export class MensajesComponent {
           .map(u => ({
             id: Number(u.idUser),
             nombre: u.nombre,
-            email: u.username // username en realidad es el email
+            email: u.username
           }))
           .filter(u => u.id !== this.idUsuarioLogueado);
 
@@ -69,12 +70,23 @@ export class MensajesComponent {
     this.usuariosFiltrados = [];
   }
 
-  enviarMensaje(): void {
-    this.mensajeEnviado = false;
-    this.error = false;
+  limpiarSeleccion(): void {
+    this.receptorSeleccionado = null;
+    this.filtro = '';
+    this.usuariosFiltrados = [...this.usuarios];
+  }
 
-    if (!this.receptorSeleccionado?.id || !this.contenido.trim()) {
-      this.error = true;
+  enviarMensaje(): void {
+    this.errorMsg = null;
+    this.mensajeEnviado = false;
+
+    if (!this.receptorSeleccionado?.id) {
+      this.errorMsg = 'Seleccione un receptor para enviar el mensaje.';
+      return;
+    }
+
+    if (!this.contenido.trim()) {
+      this.errorMsg = 'Escriba un mensaje para continuar.';
       return;
     }
 
@@ -88,19 +100,21 @@ export class MensajesComponent {
     this.enviando = true;
     this.mensajesService.enviarMensaje(dto).subscribe({
       next: () => {
-        this.mensajeEnviado = true;
         this.receptorSeleccionado = null;
         this.contenido = '';
         this.filtro = '';
         this.usuariosFiltrados = [...this.usuarios];
-
-        setTimeout(() => this.mensajeEnviado = false, 3000);
+        this.mostrarModal = true;
       },
       error: (err) => {
         console.error('Error al enviar mensaje:', err);
-        this.error = true;
+        this.errorMsg = 'Ha ocurrido un error inesperado.';
       },
       complete: () => this.enviando = false
     });
+  }
+
+  cerrarModal(): void {
+    this.mostrarModal = false;
   }
 }

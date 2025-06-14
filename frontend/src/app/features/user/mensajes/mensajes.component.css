@@ -1,3 +1,36 @@
 textarea {
     resize: vertical;
 }
+
+.scrollable-user-list {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    scrollbar-width: thin;
+}
+
+.scrollable-user-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-user-list::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.user-option {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 0.75rem;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.user-option:hover {
+    background-color: #2c86c2;
+    color: white;
+}

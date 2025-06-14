@@ -22,36 +22,24 @@
         placeholder="Buscar..." (input)="filtrarUsuarios()">
     </div>
 
-    <!-- Tabla de resultados -->
-    <div class="table-responsive mb-3" *ngIf="usuariosFiltrados.length > 0"
-      style="max-height: 360px; overflow-y: auto;">
-      <table class="table table-dark table-hover table-bordered align-middle mb-0">
-        <thead class="text-info sticky-top bg-dark">
-          <tr>
-            <th scope="col" style="width: 40px;">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let u of usuariosFiltrados; index as i" style="cursor: pointer;" (click)="seleccionarReceptor(u)">
-            <td>{{ i + 1 }}</td>
-            <td>{{ u.nombre }}</td>
-            <td>{{ u.email }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Lista scrolleable -->
+    <div class="mb-3 scrollable-user-list" *ngIf="usuariosFiltrados.length > 0">
+      <div *ngFor="let u of usuariosFiltrados" class="user-option" (click)="seleccionarReceptor(u)">
+        {{ u.nombre }} ({{ u.email }})
+      </div>
     </div>
 
     <!-- Usuario seleccionado -->
     <div class="mb-3" *ngIf="receptorSeleccionado">
       <label class="form-label">Usuario seleccionado:</label>
-      <div class="p-2 bg-dark rounded border border-info text-light">
-        <strong>{{ receptorSeleccionado.nombre }}</strong><br>
-        {{ receptorSeleccionado.email }}
+      <div class="p-2 bg-dark rounded border border-info text-light d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ receptorSeleccionado.nombre }}</strong><br>
+          {{ receptorSeleccionado.email }}
+        </div>
+        <button class="btn btn-sm btn-outline-danger ms-3" (click)="limpiarSeleccion()">✖</button>
       </div>
     </div>
-
 
     <!-- Campo mensaje -->
     <div class="mb-4">
@@ -69,11 +57,16 @@
     </div>
 
     <!-- Mensajes -->
-    <div class="alert alert-success text-center p-2 mt-3" *ngIf="mensajeEnviado">
-      Mensaje enviado correctamente.
+    <div class="alert alert-danger text-center p-2 mt-3" *ngIf="errorMsg">
+      {{ errorMsg }}
     </div>
-    <div class="alert alert-danger text-center p-2 mt-3" *ngIf="error">
-      Faltan campos o ha ocurrido un error.
+  </div>
+
+  <!-- Modal personalizado -->
+  <div class="modal-overlay" *ngIf="mostrarModal">
+    <div class="modal-box text-center">
+      <h5 class="mb-3">Mensaje enviado correctamente</h5>
+      <button class="btn btn-info mt-2 px-4" (click)="cerrarModal()">Aceptar</button>
     </div>
   </div>
 </div>
