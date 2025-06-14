@@ -7,6 +7,7 @@ public record AppReviewDTOResponse(
         String username,
         Integer puntuacion,
         String comentario,
-        LocalDateTime fecha
+        LocalDateTime fecha,
+        Long userId
 ) {}
 

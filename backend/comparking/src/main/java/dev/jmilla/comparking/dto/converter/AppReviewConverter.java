@@ -35,7 +35,8 @@ public class AppReviewConverter {
                 review.getUser().getUsername(),
                 review.getPuntuacion(),
                 review.getComentario(),
-                review.getFecha()
+                review.getFecha(),
+                review.getUser().getIdUser()
         );
     }
 
