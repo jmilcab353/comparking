@@ -1,0 +1,29 @@
+services:
+  backend:
+    image: jmilcab353/comparking-backend:latest
+    container_name: comparking-backend-container
+    ports:
+      - "9000:9000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/comparking
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - db
+
+  frontend:
+    image: jmilcab353/comparking-frontend:latest
+    container_name: comparking-frontend-container
+    ports:
+      - "4200:4200"
+
+  db:
+    image: jmilcab353/comparking-db:latest
+    container_name: comparking-db-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo
+    ports:
+      - "3306:3306"
+    # volumes:
+    #   - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
