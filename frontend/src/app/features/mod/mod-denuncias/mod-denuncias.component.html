@@ -2,12 +2,30 @@
     <div class="comparking-box">
         <h4 class="text-center mb-4">Gestión de denuncias</h4>
 
+        <div class="mb-3">
+            <label class="form-label">Filtrar por fecha:</label>
+            <input type="date" class="form-control bg-dark text-light" [(ngModel)]="fechaFiltro" />
+        </div>
+
         <div *ngIf="estado === 'cargando'" class="text-center">Cargando denuncias...</div>
         <div *ngIf="estado === 'vacio'" class="text-center text-warning">No hay denuncias registradas.</div>
         <div *ngIf="estado === 'error'" class="alert alert-danger text-center">{{ errorMsg }}</div>
 
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center my-3" *ngIf="totalPages > 1">
+            <button class="btn btn-outline-light btn-sm me-2" [disabled]="currentPage === 1"
+                (click)="cambiarPagina(-1)">
+                Anterior
+            </button>
+            <span class="align-self-center">Página {{ currentPage }} de {{ totalPages }}</span>
+            <button class="btn btn-outline-light btn-sm ms-2" [disabled]="currentPage === totalPages"
+                (click)="cambiarPagina(1)">
+                Siguiente
+            </button>
+        </div>
+
         <div *ngIf="estado === 'ok'" class="row">
-            <div class="col-12 mb-3" *ngFor="let d of denuncias">
+            <div class="col-12 mb-3" *ngFor="let d of paginaActual">
                 <div class="p-3 rounded hover-effect aparcamiento-card">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
@@ -15,24 +33,21 @@
                             <p><strong>Denunciado:</strong> {{ d.denunciado }}</p>
                             <p><strong>Aparcamiento:</strong> {{ d.direccionAparcamiento }}</p>
                             <p><strong>Descripción:</strong> {{ d.descripcion }}</p>
-                            <p><strong>Fecha:</strong> {{ d.fecha | date: 'short' }}</p>
+                            <p><strong>Fecha:</strong> {{ d.fecha | date: 'dd/MM/yyyy' }}</p>
                             <p>
                                 <strong>Estado: </strong>
                                 <span [ngClass]="{
                   'text-warning': d.estado === 'pendiente',
-                  'text-success': d.estado === 'revisada'
+                  'text-info': d.estado === 'revisada'
                 }">{{ d.estado }}</span>
                             </p>
                         </div>
 
                         <div class="text-end">
                             <button *ngIf="d.estado === 'pendiente'" class="btn btn-success btn-sm me-2"
-                                (click)="confirmarDenuncia(d.id)">
-                                Confirmar
-                            </button>
-                            <button class="btn btn-danger btn-sm" (click)="abrirModal(d.id)">
-                                Eliminar
-                            </button>
+                                (click)="abrirModal(d.id, 'confirmar')">Confirmar</button>
+                            <button class="btn btn-danger btn-sm"
+                                (click)="abrirModal(d.id, 'eliminar')">Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -41,13 +56,21 @@
     </div>
 </div>
 
-<!-- Modal confirmación eliminar -->
+<!-- Modal confirmación -->
 <div *ngIf="modalConfirmacionId !== null" class="modal-overlay">
-    <div class="modal-box">
-        <h5 class="text-center mb-4">¿Desea eliminar esta denuncia?</h5>
-        <div class="d-flex justify-content-center gap-3">
-            <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-            <button class="btn btn-danger" (click)="eliminarDenuncia(modalConfirmacionId!)">Eliminar</button>
+    <div class="modal-box text-center">
+        <h5 class="mb-3">
+            {{ modalAccion === 'eliminar' ? '¿Desea eliminar esta denuncia?' : '¿Confirmar que ha sido revisada?' }}
+        </h5>
+
+        <div *ngIf="modalMensaje" class="alert alert-info my-3">{{ modalMensaje }}</div>
+
+        <div class="d-flex justify-content-center gap-3 mt-3" *ngIf="!modalMensaje">
+            <button class="btn btn-secondary" [disabled]="bloqueado" (click)="cerrarModal()">Cancelar</button>
+            <button class="btn" [ngClass]="modalAccion === 'eliminar' ? 'btn-danger' : 'btn-success'"
+                [disabled]="bloqueado" (click)="confirmarAccion()">
+                {{ modalAccion === 'eliminar' ? 'Eliminar' : 'Confirmar' }}
+            </button>
         </div>
     </div>
 </div>
