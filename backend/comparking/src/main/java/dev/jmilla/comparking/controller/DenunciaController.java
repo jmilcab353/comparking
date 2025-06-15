@@ -56,4 +56,10 @@ public class DenunciaController {
                 ? ResponseEntity.noContent().build()
                 : ResponseEntity.ok(lista);
     }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<DenunciaDTOResponse> updateEstado(@PathVariable Long id, @RequestParam String valor) {
+        return ResponseEntity.ok(service.updateEstado(id, valor));
+    }
+
 }
