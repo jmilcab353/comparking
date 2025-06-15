@@ -28,7 +28,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copia los archivos de la aplicación construida desde la carpeta correcta de dist
 # COPY --from=build /app/dist/contenedor-angular/browser /usr/share/nginx/html
-COPY --from=build /app/dist/skills/browser /usr/share/nginx/html
+COPY --from=build /app/dist/comparking/browser /usr/share/nginx/html
 
 # Expone el puerto 4200 para servir la aplicación
 EXPOSE 4200
