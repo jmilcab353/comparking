@@ -43,4 +43,11 @@ export class DenunciasService {
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+  actualizarEstado(id: number, nuevoEstado: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/estado?valor=${nuevoEstado}`, null, {
+      headers: this.getHeaders()
+    });
+  }
+
 }
