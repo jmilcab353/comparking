@@ -4,15 +4,12 @@ import dev.jmilla.comparking.dto.UserDTO;
 import dev.jmilla.comparking.dto.UserDTOResponse;
 import dev.jmilla.comparking.dto.UserDataDTO;
 import dev.jmilla.comparking.dto.UserDataUpdateDTO;
-import dev.jmilla.comparking.dto.converter.UserConverter;
-import dev.jmilla.comparking.entity.User;
 import dev.jmilla.comparking.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +24,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final UserConverter userConverter;
 
     @Operation(summary = "Obtener todos los usuarios", description = "Recupera una lista de todos los usuarios registrados")
     @ApiResponse(responseCode = "200", description = "Usuarios encontrados")
