@@ -64,7 +64,7 @@ Esto construirá e iniciará los contenedores de:
 | Swagger    | `9000`     | http://localhost:9000/swagger-ui.html |
 | MySQL DB   | `3306`     | Conexión local para DB tools |
 
-> ⚠️ Asegúrate de que los puertos `3306`, `9000` y `4200` estén libres.
+> ⚠️ Asegúrate de que los puertos `3306`, `9000` y `4200` estén libres en tu máquina.
 
 ---
 
@@ -143,7 +143,3 @@ Subidas a Docker Hub:
 - [`jmilcab353/comparking-backend`](https://hub.docker.com/r/jmilcab353/comparking-backend)
 - [`jmilcab353/comparking-frontend`](https://hub.docker.com/r/jmilcab353/comparking-frontend)
 - [`jmilcab353/comparking-db`](https://hub.docker.com/r/jmilcab353/comparking-db)
-
----
-
-### ✨ Gracias por echar un vistazo al proyecto 🙌
