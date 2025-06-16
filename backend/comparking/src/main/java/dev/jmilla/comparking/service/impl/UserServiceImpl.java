@@ -65,11 +65,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> optional = repository.findById(id);
 
         if (optional.isEmpty()) {
-            System.out.println(">>> NO se ha encontrado ningún usuario con ID: " + id);
             throw new RuntimeException("Usuario no encontrado");
         }
-
-        System.out.println(">>> Usuario SÍ encontrado en la BD con ID: " + id);
 
         User existing = optional.get();
 
